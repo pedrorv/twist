@@ -2,8 +2,7 @@ const React = require('react')
 
 const Main = (props) => {
     return (
-        <div>
-            <p>Main Component</p>
+        <div className="flexbox main-component">
             {props.children}
         </div>
     )

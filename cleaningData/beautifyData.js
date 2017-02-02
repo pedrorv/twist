@@ -28,18 +28,25 @@ let authorsToArray =
 
     return newsObj
   })
+  .filter((news) => news["título"] !== "")
 
 let frequentWords = 
   authorsToArray
-    .map((news) => news["título"])
-    .reduce((acc, title) => {
+    .map((news) => {
+      return {
+        "título": news['título'],
+        "candidato": news["candidato"]
+      }
+    })
+    .reduce((acc, news) => {
       let newObj = acc
       let lowerCaseWords = 
-        title.split(/[0-9%–)º|ª‘;”,’\-.:('"\!/\s+]/)
+        news["título"].split(/[0-9%–°)º|ª‘;”,’\-.:('"\!/\s+]/)
              .map((word) => word.toLowerCase())
              .forEach((word) => {
-               if (newObj[word] === undefined) newObj[word] = 0
-               newObj[word]++
+               if (newObj[word] === undefined) newObj[word] = { count: 0, candidato: { "Freixo": 0, "Crivella": 0 }}
+               newObj[word].count++
+               newObj[word].candidato[news["candidato"]]++
              })
       return newObj
     }, {})
@@ -51,7 +58,11 @@ let frequentWordsArr =
     .map((key) => {
       return {
         word: key, 
-        count: frequentWords[key]
+        count: frequentWords[key].count,
+        candidato: {
+          'Freixo': frequentWords[key].candidato['Freixo'],
+          'Crivella': frequentWords[key].candidato['Crivella']
+        }
       }
     })
     .filter((word) => !filter[word.word] && word.word !== "")

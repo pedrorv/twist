@@ -19,7 +19,7 @@ module.exports = {
         query: {
           presets: ['react', 'es2015', 'stage-0']
         },
-        test: /\.jsx?$/,
+        test: /\.(jsx)|(js)?$/,
         exclude: /(node_modules|bower_components)/
       },
       {

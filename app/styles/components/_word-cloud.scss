@@ -1,0 +1,27 @@
+text.word {
+  text-transform: uppercase;
+  text-shadow: 1px 1px 1px #aaa;
+}
+
+div.vis-options {
+  h2, label {
+    color: #333;
+    font-size: 22px;
+  }
+
+  p.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background: $twist-blue;
+    border-radius: 5px;
+    margin-right: 10px;
+    color: white;
+    font-weight: bold;
+
+    &:hover, &.active {
+      background: darken($twist-blue, 15%);
+    }
+  }
+}

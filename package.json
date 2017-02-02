@@ -6,7 +6,8 @@
   "author": "Pedro Reis <pedroreisv@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "d3": "^4.5.0",
+    "d3": "3.5",
+    "d3.layout.cloud": "^1.2.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-router": "^3.0.2"

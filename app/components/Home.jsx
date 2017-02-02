@@ -5,7 +5,7 @@ const Home = (props) => {
     return (
         <div>
             <p>Home Component</p>
-            <Link to={'/twist/about'}>About</Link>
+            <Link to={'/twist/word-cloud'}>word cloud</Link>
         </div>
     )
 }

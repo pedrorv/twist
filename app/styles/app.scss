@@ -1,1 +1,14 @@
 @import 'base/normalize';
+@import 'base/variables';
+
+div.flexbox {
+  display: flex;
+
+  &.vis-holder {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@import 'components/main';
+@import 'components/word-cloud';
