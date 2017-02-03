@@ -53,8 +53,22 @@ function drawNewsDonut () {
 
     
 
-    let allNewsSources = Object.keys(visConfig.newsSources)
-                               .reduce((acc, key) => acc.concat(visConfig.newsSources[key]), [])
+    let newsSources = Object.keys(visConfig.newsSources)
+    
+    newsSources.forEach((source) => {
+      d3.select('#news-source-selection')
+        .append('option')
+        .attr('value', source)
+        .text(source)
+        
+      d3.select('#news-source-selection')
+        .on('change', function() {
+          let selector = d3.select(this)[0][0]
+          updateGraph(selector.options[selector.selectedIndex].value)
+        })
+    })
+
+    let allNewsSources = newsSources.reduce((acc, key) => acc.concat(visConfig.newsSources[key]), [])
     
     let allNewsSourcesCandidatesData = returnCadidatesData(allNewsSources)
 
@@ -86,8 +100,31 @@ function drawNewsDonut () {
                               .attr('font-family', 'monospace')
                               .attr('transform', 'translate(0, 10)')
                               .text(() => {
-                                return Object.keys(visConfig.newsSources).length + ((Object.keys(visConfig.newsSources).length > 1) ? ' fontes' : ' fonte')
+                                return newsSources.length + ((newsSources.length > 1) ? ' fontes' : ' fonte')
                               })
+
+    function updateGraph(filter) {
+      d3.selectAll('.arc').remove()
+      
+      let arcGroup = svg.selectAll('.arc')
+                      .data(pie((filter !== 'all') ? returnCadidatesData(visConfig.newsSources[filter]) : allNewsSourcesCandidatesData))
+                      .enter()
+                      .append('g')
+                      .attr('class', 'arc')
+                      .append('path')
+                      .attr('d', arc)
+                      .style('fill', (d) => (d.data.candidato === 'Freixo') ? visConfig.FreixoColor : visConfig.CrivellaColor)
+
+      d3.select('text.total-news').text(() => {
+                                    return visConfig.newsSources[filter].length + ((visConfig.newsSources[filter].length > 1) ? ' notícias' : ' notícia')
+                                  })
+
+      d3.select('text.total-sources').text(() => {
+        if (filter === 'all') return newsSources.length + ((newsSources.length > 1) ? ' fontes' : ' fonte')
+
+        return filter
+      })
+    }
   }
 }
 

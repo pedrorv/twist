@@ -13,6 +13,9 @@ const NewsDonut = React.createClass({
       <div className="flexbox vis-holder">
           <VisTitle title="Notícias por fonte" />
           <svg id="news-donut" height={visConfig.height} width={visConfig.width}></svg>
+          <select id="news-source-selection">
+            <option value="all" defaultValue>Todos</option>
+          </select>
       </div>
     )
   }

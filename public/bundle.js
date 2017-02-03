@@ -52378,7 +52378,16 @@
 	      'div',
 	      { className: 'flexbox vis-holder' },
 	      React.createElement(VisTitle, { title: 'Not\xEDcias por fonte' }),
-	      React.createElement('svg', { id: 'news-donut', height: visConfig.height, width: visConfig.width })
+	      React.createElement('svg', { id: 'news-donut', height: visConfig.height, width: visConfig.width }),
+	      React.createElement(
+	        'select',
+	        { id: 'news-source-selection' },
+	        React.createElement(
+	          'option',
+	          { value: 'all', defaultValue: true },
+	          'Todos'
+	        )
+	      )
 	    );
 	  }
 	});
@@ -52441,7 +52450,18 @@
 	      return d.count;
 	    });
 
-	    var allNewsSources = Object.keys(visConfig.newsSources).reduce(function (acc, key) {
+	    var newsSources = Object.keys(visConfig.newsSources);
+
+	    newsSources.forEach(function (source) {
+	      d3.select('#news-source-selection').append('option').attr('value', source).text(source);
+
+	      d3.select('#news-source-selection').on('change', function () {
+	        var selector = d3.select(this)[0][0];
+	        updateGraph(selector.options[selector.selectedIndex].value);
+	      });
+	    });
+
+	    var allNewsSources = newsSources.reduce(function (acc, key) {
 	      return acc.concat(visConfig.newsSources[key]);
 	    }, []);
 
@@ -52456,8 +52476,26 @@
 	    });
 
 	    var centerTextBottom = svg.append('text').attr('class', 'total-sources').attr('text-anchor', 'middle').attr('font-size', 18).attr('font-family', 'monospace').attr('transform', 'translate(0, 10)').text(function () {
-	      return Object.keys(visConfig.newsSources).length + (Object.keys(visConfig.newsSources).length > 1 ? ' fontes' : ' fonte');
+	      return newsSources.length + (newsSources.length > 1 ? ' fontes' : ' fonte');
 	    });
+
+	    function updateGraph(filter) {
+	      d3.selectAll('.arc').remove();
+
+	      var arcGroup = svg.selectAll('.arc').data(pie(filter !== 'all' ? returnCadidatesData(visConfig.newsSources[filter]) : allNewsSourcesCandidatesData)).enter().append('g').attr('class', 'arc').append('path').attr('d', arc).style('fill', function (d) {
+	        return d.data.candidato === 'Freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor;
+	      });
+
+	      d3.select('text.total-news').text(function () {
+	        return visConfig.newsSources[filter].length + (visConfig.newsSources[filter].length > 1 ? ' notícias' : ' notícia');
+	      });
+
+	      d3.select('text.total-sources').text(function () {
+	        if (filter === 'all') return newsSources.length + (newsSources.length > 1 ? ' fontes' : ' fonte');
+
+	        return filter;
+	      });
+	    }
 	  }
 	}
 
