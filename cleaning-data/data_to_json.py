@@ -96,7 +96,7 @@ def main (filename):
             "url": url
         })
 
-    f = open ("rawData.json", "w")
+    f = open ("raw-data.json", "w")
     j = json.dumps(news, sort_keys=False, indent=2, ensure_ascii=False)
     f.write(j)
     f.close()

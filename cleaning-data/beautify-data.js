@@ -1,7 +1,7 @@
 const fs = require('fs') 
 const capitalize = require('./capitalize')
 
-let rawData = JSON.parse(fs.readFileSync('rawData.json', { encoding: 'utf8' }))
+let rawData = JSON.parse(fs.readFileSync('raw-data.json', { encoding: 'utf8' }))
 
 let authorsToArray = 
   rawData.map((news) => {
@@ -51,7 +51,7 @@ let frequentWords =
       return newObj
     }, {})
 
-let filter = JSON.parse(fs.readFileSync('stopWordsFilter.json', { encoding: 'utf8' }))
+let filter = JSON.parse(fs.readFileSync('stopwords-filter.json', { encoding: 'utf8' }))
 
 let frequentWordsArr =
   Object.keys(frequentWords)
@@ -79,8 +79,8 @@ let newsSource =
 	}, {})
 
 fs.writeFileSync('data.json', JSON.stringify(authorsToArray, null, 2))
-fs.writeFileSync('frequentWords.json', JSON.stringify(frequentWordsArr, null, 2))
-fs.writeFileSync('newsSource.json', JSON.stringify(newsSource, null, 2))
+fs.writeFileSync('frequent-words.json', JSON.stringify(frequentWordsArr, null, 2))
+fs.writeFileSync('news-source.json', JSON.stringify(newsSource, null, 2))
 
 
 // Stopwords filter

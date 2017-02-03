@@ -8,7 +8,7 @@ d3.layout.cloud = require('d3.layout.cloud')
 function drawWordCloud () {
 
   if (visConfig.frequentWords === undefined) {
-    d3.json(environmentUrl('js/frequentWords.json'), function(error, json) {
+    d3.json(environmentUrl('js/frequent-words.json'), function(error, json) {
       if (error) return console.warn(error)
       
       visConfig.frequentWords = json.filter((word) => word.count > 10)
@@ -19,7 +19,7 @@ function drawWordCloud () {
   }
 
 
-  function showVis(filter) {
+  function showVis() {
 
     function wordSizeScale(data) {
       return d3.scale.linear()
@@ -57,8 +57,6 @@ function drawWordCloud () {
     function wordCloud() {
 
       let svg = d3.select('svg#word-cloud')
-                  .attr('width', visConfig.width)
-                  .attr('height', visConfig.height)
                   .append("g")
                   .attr('class', 'vis')
                   .attr("transform", 'translate('+visConfig.width/2+','+visConfig.height/2+')')
@@ -93,10 +91,10 @@ function drawWordCloud () {
              .attr('transform', d => 'translate('+d.x+','+d.y+') rotate('+d.rotate+')')
              .attr('fill', d => {
                if (d['candidato']['Freixo'] > d['candidato']['Crivella']) {
-                 return visConfig.wcFreixoColor
+                 return visConfig.FreixoColor
                }
                else if (d['candidato']['Freixo'] < d['candidato']['Crivella']) {
-                 return visConfig.wcCrivellaColor
+                 return visConfig.CrivellaColor
                }
 
                return visConfig.wcDrawColor

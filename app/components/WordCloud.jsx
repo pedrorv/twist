@@ -1,6 +1,6 @@
 const React = require('react')
 
-const drawWordCloud = require('../visualizations/wordcloud')
+const drawWordCloud = require('../visualizations/word-cloud')
 
 const WordCloud = React.createClass({
   componentDidMount: function() {
@@ -26,21 +26,3 @@ const WordCloud = React.createClass({
 
 
 module.exports = WordCloud
-
-
-// <div className="option">
-//               <input id="word-cloud-none" type="radio" name="filterwc" value="none" checked />
-//               <label for="word-cloud-none">Todas</label>
-//             </div>
-//             <div className="option">
-//               <input id="word-cloud-crivella" type="radio" name="filterwc" value="crivella" />
-//               <label for="word-cloud-crivella">Sobre o Crivella</label>
-//             </div>
-//             <div className="option">
-//               <input id="word-cloud-freixo" type="radio" name="filterwc" value="freixo" />
-//               <label for="word-cloud-freixo">Sobre o Freixo</label>
-//             </div>
-//             <div className="option">
-//               <input id="word-cloud-both" type="radio" name="filterwc" value="ambos" />
-//               <label for="word-cloud-both">Empate no uso</label>
-//             </div>

@@ -7,13 +7,15 @@ const Home = require('Home')
 const About = require('About')
 
 const WordCloud = require('WordCloud')
+const NewsTimeSeries = require('NewsTimeSeries')
 
 require('./styles/app.scss')
 
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/twist" component={Main}>
-      <Route path="word-cloud" component={WordCloud} />
+      <Route path="palavras-frequentes" component={WordCloud} />
+      <Route path="serie-temporal" component={NewsTimeSeries} />
       <IndexRoute component={Home} />
     </Route>
   </Router>,

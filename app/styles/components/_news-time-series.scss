@@ -1,0 +1,36 @@
+div.vis-options {
+  p.checkbutton {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-weight: bold;
+
+    &.freixo {
+      border: 3px solid $twist-freixo;
+      color: #444;
+
+      &.active {
+        background: $twist-freixo;
+      }
+      &:hover {
+        background: darken($twist-freixo, 15%);
+      }
+    }
+
+    &.crivella {
+      border: 3px solid $twist-crivella;
+      color: #444;
+
+      &.active {
+        background: $twist-crivella;
+        color: #fff;
+      }
+      &:hover {
+        background: darken($twist-crivella, 15%);
+      }
+    }
+  }
+}
