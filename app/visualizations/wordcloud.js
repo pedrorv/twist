@@ -11,7 +11,7 @@ function drawWordCloud () {
     d3.json(environmentUrl('js/frequentWords.json'), function(error, json) {
       if (error) return console.warn(error)
       
-      visConfig.frequentWords = json.filter((word) => word.count > 30)
+      visConfig.frequentWords = json.filter((word) => word.count > 10)
       showVis()
     });
   } else {
@@ -114,9 +114,11 @@ function drawWordCloud () {
             .rotate(() => {
               let multiplier = Math.round(Math.random()) === 1 ? 1 : -1
 
-              return multiplier * (Math.floor(Math.random() * 31))
+              return multiplier * (Math.floor(Math.random() * 16))
             })
+            .font('monospace')
             .fontSize(d => wordSize(d.count))
+            .text((d) => d.word)
             .on("end", draw)
             .start()
         }

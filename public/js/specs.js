@@ -6,9 +6,9 @@ var visConfig = {
 
   wcExitTransitionDuration: 300,
   wcEnterTransitionDuration: 600,
-  wcFreixoColor: 'yellow',
-  wcCrivellaColor: 'blue',
-  wcDrawColor: 'black',
-  wcMaxWordFontSize: 50,
+  wcFreixoColor: '#FFD00D',
+  wcCrivellaColor: '#08547A',
+  wcDrawColor: '#444',
+  wcMaxWordFontSize: 60,
   wcMinWordFontSize: 15
 }

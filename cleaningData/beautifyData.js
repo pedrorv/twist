@@ -68,9 +68,19 @@ let frequentWordsArr =
     .filter((word) => !filter[word.word] && word.word !== "")
     .sort((a, b) => b.count - a.count)
 
+
+let newsSource =
+  authorsToArray.reduce((acc, current) => {
+		var newObj = acc;
+		if (newObj[current.fonte] === undefined) newObj[current.fonte] = []
+
+		newObj[current.fonte].push(current)
+		return newObj;
+	}, {})
+
 fs.writeFileSync('data.json', JSON.stringify(authorsToArray, null, 2))
 fs.writeFileSync('frequentWords.json', JSON.stringify(frequentWordsArr, null, 2))
-
+fs.writeFileSync('newsSource.json', JSON.stringify(newsSource, null, 2))
 
 
 // Stopwords filter

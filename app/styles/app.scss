@@ -7,8 +7,10 @@ div.flexbox {
   &.vis-holder {
     flex-direction: column;
     align-items: center;
+    padding: 20px;
   }
 }
 
+@import 'components/navigation';
 @import 'components/main';
 @import 'components/word-cloud';

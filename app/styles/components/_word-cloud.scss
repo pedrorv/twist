@@ -1,13 +1,16 @@
 text.word {
   text-transform: uppercase;
-  text-shadow: 1px 1px 1px #aaa;
+  font-family: monospace;
+}
+
+h2 {
+  color: #333;
+  font-size: 22px;
 }
 
 div.vis-options {
-  h2, label {
-    color: #333;
-    font-size: 22px;
-  }
+  display: flex;
+  justify-content: center;
 
   p.button {
     display: inline-block;
