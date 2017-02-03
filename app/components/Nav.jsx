@@ -4,7 +4,9 @@ const { Link } = require('react-router')
 const Nav = (props) => {
     return (
         <div className="flexbox navigation">
-            <Link class="vis" to={'/twist/palavras-frequentes'}>Word Cloud</Link>
+            <Link className="vis" to={'/twist/serie-temporal'}>Notícias sobre candidatos</Link>
+            <Link className="vis" to={'/twist/palavras-frequentes'}>Palavras Frequentes</Link>
+            <Link className="vis" to={'/twist/fontes-donut'}>Notícias por Fonte</Link>
         </div>
     )
 }

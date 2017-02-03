@@ -21,4 +21,9 @@ var visConfig = {
   ntsPathSize: 2,
   ntsPathTransitionDuration: 400,
   ntsPathTransitionDelay: 400,
+
+  // News Source Pie Charts specs
+
+  nspcChartRadius: 200,
+  
 }

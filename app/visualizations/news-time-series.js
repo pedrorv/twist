@@ -16,7 +16,7 @@ function drawNewsTimeSeries () {
       })
 
       showVis()
-    });
+    })
   } else {
     showVis()
   }
@@ -50,8 +50,11 @@ function drawNewsTimeSeries () {
       }
     }).sort((a, b) => b.count - a.count)
 
-    let freixoData = mostNewsArray.filter((news) => news.candidate === 'Freixo').sort((a, b) => b.date - a.date)
-    let crivellaData = mostNewsArray.filter((news) => news.candidate === 'Crivella').sort((a, b) => b.date - a.date)
+    let freixoData = mostNewsArray.filter((news) => news.candidate === 'Freixo')
+                                  .sort((a, b) => b.date - a.date)
+
+    let crivellaData = mostNewsArray.filter((news) => news.candidate === 'Crivella')
+                                    .sort((a, b) => b.date - a.date)
     
 
     let xScale = d3.time.scale()

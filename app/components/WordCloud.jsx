@@ -1,5 +1,6 @@
 const React = require('react')
 
+const VisTitle = require('VisTitle')
 const drawWordCloud = require('../visualizations/word-cloud')
 
 const WordCloud = React.createClass({
@@ -9,9 +10,8 @@ const WordCloud = React.createClass({
   render: function() {
     return (
       <div className="flexbox vis-holder">
+          <VisTitle title="Palavras mais utilizadas em títulos de notícias" />
           <svg id="word-cloud" height={visConfig.height} width={visConfig.width}></svg>
-          
-          <h2>Palavras mais utilizadas em títulos de notícias sobre os candidatos</h2>
           
           <div className="vis-options">
             <p value="all" className="button active">Todas</p>

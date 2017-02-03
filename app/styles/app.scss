@@ -7,11 +7,17 @@ div.flexbox {
   &.vis-holder {
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    box-shadow: 2px 2px 3px #333;
+    margin: 15px;
+
+    svg {
+      margin: 20px 10px;
+    }
   }
 }
 
 @import 'components/navigation';
+@import 'components/vis-title';
 @import 'components/main';
 @import 'components/word-cloud';
 @import 'components/news-time-series';

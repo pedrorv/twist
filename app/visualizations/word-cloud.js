@@ -13,7 +13,7 @@ function drawWordCloud () {
       
       visConfig.frequentWords = json.filter((word) => word.count > 10)
       showVis()
-    });
+    })
   } else {
     showVis()
   }

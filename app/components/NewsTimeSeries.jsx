@@ -1,5 +1,7 @@
 const React = require('react')
 
+const VisTitle = require('VisTitle')
+
 const drawNewsTimeSeries = require('../visualizations/news-time-series')
 
 const NewsTimeSeries = React.createClass({
@@ -9,6 +11,7 @@ const NewsTimeSeries = React.createClass({
   render: function() {
     return (
       <div className="flexbox vis-holder">
+          <VisTitle title="Notícias sobre os candidatos" />
           <svg id="news-time-series" height={visConfig.height} width={visConfig.width}></svg>
 
           <div className="vis-options">
