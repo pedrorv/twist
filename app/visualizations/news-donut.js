@@ -54,19 +54,6 @@ function drawNewsDonut () {
     
 
     let newsSources = Object.keys(visConfig.newsSources)
-    
-    newsSources.forEach((source) => {
-      d3.select('#news-source-selection')
-        .append('option')
-        .attr('value', source)
-        .text(source)
-        
-      d3.select('#news-source-selection')
-        .on('change', function() {
-          let selector = d3.select(this)[0][0]
-          updateGraph(selector.options[selector.selectedIndex].value)
-        })
-    })
 
     let allNewsSources = newsSources.reduce((acc, key) => acc.concat(visConfig.newsSources[key]), [])
     
@@ -81,6 +68,10 @@ function drawNewsDonut () {
                       .append('path')
                       .attr('d', arc)
                       .style('fill', (d) => (d.data.candidato === 'Freixo') ? visConfig.FreixoColor : visConfig.CrivellaColor)
+                      .attr('opacity', 0)
+                      .transition()
+                      .duration(visConfig.nspcChartTransition)
+                      .attr('opacity', 1)
                       
       
     let centerTextTop = svg.append('text')
@@ -92,6 +83,11 @@ function drawNewsDonut () {
                            .text(() => {
                              return allNewsSources.length + ((allNewsSources.length > 1) ? ' notícias' : ' notícia')
                            })
+                           .attr('opacity', 0)
+                           .transition()
+                           .duration(visConfig.nspcChartTransition)
+                           .delay(visConfig.nspcChartDelay)
+                           .attr('opacity', 1)
 
     let centerTextBottom = svg.append('text')
                               .attr('class', 'total-sources')
@@ -102,10 +98,15 @@ function drawNewsDonut () {
                               .text(() => {
                                 return newsSources.length + ((newsSources.length > 1) ? ' fontes' : ' fonte')
                               })
+                              .attr('opacity', 0)
+                              .transition()
+                              .duration(visConfig.nspcChartTransition)
+                              .delay(visConfig.nspcChartDelay)
+                              .attr('opacity', 1)
 
     function updateGraph(filter) {
-      d3.selectAll('.arc').remove()
-      
+      let currentArcs = d3.selectAll('.arc').remove()
+
       let arcGroup = svg.selectAll('.arc')
                       .data(pie((filter !== 'all') ? returnCadidatesData(visConfig.newsSources[filter]) : allNewsSourcesCandidatesData))
                       .enter()
@@ -114,17 +115,48 @@ function drawNewsDonut () {
                       .append('path')
                       .attr('d', arc)
                       .style('fill', (d) => (d.data.candidato === 'Freixo') ? visConfig.FreixoColor : visConfig.CrivellaColor)
+                      .attr('opacity', 0)
+                      .transition()
+                      .duration(visConfig.nspcChartTransition)
+                      .attr('opacity', 1)
 
       d3.select('text.total-news').text(() => {
-                                    return visConfig.newsSources[filter].length + ((visConfig.newsSources[filter].length > 1) ? ' notícias' : ' notícia')
-                                  })
+        if (filter === 'all') return allNewsSources.length + ((allNewsSources.length > 1) ? ' notícias' : ' notícia')
+
+        return visConfig.newsSources[filter].length + ((visConfig.newsSources[filter].length > 1) ? ' notícias' : ' notícia')
+      })
+      .attr('opacity', 0)
+      .transition()
+      .duration(visConfig.nspcChartTransition)
+      .delay(visConfig.nspcChartDelay)
+      .attr('opacity', 1)
 
       d3.select('text.total-sources').text(() => {
         if (filter === 'all') return newsSources.length + ((newsSources.length > 1) ? ' fontes' : ' fonte')
 
         return filter
       })
+      .attr('opacity', 0)
+      .transition()
+      .duration(visConfig.nspcChartTransition)
+      .delay(visConfig.nspcChartDelay)
+      .attr('opacity', 1)
     }
+
+    // Add options to selector
+
+    newsSources.forEach((source) => {
+      d3.select('#news-source-selection')
+        .append('option')
+        .attr('value', source)
+        .text(source)
+        
+      d3.select('#news-source-selection')
+        .on('change', function() {
+          let selector = d3.select(this)[0][0]
+          updateGraph(selector.options[selector.selectedIndex].value)
+        })
+    })
   }
 }
 

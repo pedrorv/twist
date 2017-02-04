@@ -52452,15 +52452,6 @@
 
 	    var newsSources = Object.keys(visConfig.newsSources);
 
-	    newsSources.forEach(function (source) {
-	      d3.select('#news-source-selection').append('option').attr('value', source).text(source);
-
-	      d3.select('#news-source-selection').on('change', function () {
-	        var selector = d3.select(this)[0][0];
-	        updateGraph(selector.options[selector.selectedIndex].value);
-	      });
-	    });
-
 	    var allNewsSources = newsSources.reduce(function (acc, key) {
 	      return acc.concat(visConfig.newsSources[key]);
 	    }, []);
@@ -52469,33 +52460,46 @@
 
 	    var arcGroup = svg.selectAll('.arc').data(pie(allNewsSourcesCandidatesData)).enter().append('g').attr('class', 'arc').append('path').attr('d', arc).style('fill', function (d) {
 	      return d.data.candidato === 'Freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor;
-	    });
+	    }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).attr('opacity', 1);
 
 	    var centerTextTop = svg.append('text').attr('class', 'total-news').attr('text-anchor', 'middle').attr('font-size', 18).attr('font-family', 'monospace').attr('transform', 'translate(0, -10)').text(function () {
 	      return allNewsSources.length + (allNewsSources.length > 1 ? ' notícias' : ' notícia');
-	    });
+	    }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).delay(visConfig.nspcChartDelay).attr('opacity', 1);
 
 	    var centerTextBottom = svg.append('text').attr('class', 'total-sources').attr('text-anchor', 'middle').attr('font-size', 18).attr('font-family', 'monospace').attr('transform', 'translate(0, 10)').text(function () {
 	      return newsSources.length + (newsSources.length > 1 ? ' fontes' : ' fonte');
-	    });
+	    }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).delay(visConfig.nspcChartDelay).attr('opacity', 1);
 
 	    function updateGraph(filter) {
-	      d3.selectAll('.arc').remove();
+	      var currentArcs = d3.selectAll('.arc').remove();
 
 	      var arcGroup = svg.selectAll('.arc').data(pie(filter !== 'all' ? returnCadidatesData(visConfig.newsSources[filter]) : allNewsSourcesCandidatesData)).enter().append('g').attr('class', 'arc').append('path').attr('d', arc).style('fill', function (d) {
 	        return d.data.candidato === 'Freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor;
-	      });
+	      }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).attr('opacity', 1);
 
 	      d3.select('text.total-news').text(function () {
+	        if (filter === 'all') return allNewsSources.length + (allNewsSources.length > 1 ? ' notícias' : ' notícia');
+
 	        return visConfig.newsSources[filter].length + (visConfig.newsSources[filter].length > 1 ? ' notícias' : ' notícia');
-	      });
+	      }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).delay(visConfig.nspcChartDelay).attr('opacity', 1);
 
 	      d3.select('text.total-sources').text(function () {
 	        if (filter === 'all') return newsSources.length + (newsSources.length > 1 ? ' fontes' : ' fonte');
 
 	        return filter;
-	      });
+	      }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).delay(visConfig.nspcChartDelay).attr('opacity', 1);
 	    }
+
+	    // Add options to selector
+
+	    newsSources.forEach(function (source) {
+	      d3.select('#news-source-selection').append('option').attr('value', source).text(source);
+
+	      d3.select('#news-source-selection').on('change', function () {
+	        var selector = d3.select(this)[0][0];
+	        updateGraph(selector.options[selector.selectedIndex].value);
+	      });
+	    });
 	  }
 	}
 

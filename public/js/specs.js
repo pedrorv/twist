@@ -25,5 +25,6 @@ var visConfig = {
   // News Source Pie Charts specs
 
   nspcChartRadius: 200,
-  
+  nspcChartTransition: 500,
+  nspcChartDelay: 300
 }
