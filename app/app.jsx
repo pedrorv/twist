@@ -8,7 +8,8 @@ const About = require('About')
 
 const WordCloud = require('WordCloud')
 const NewsTimeSeries = require('NewsTimeSeries')
-const NewsDonut = require('NewsDonut')
+const NewsSourceDonut = require('NewsSourceDonut')
+const NewsSourceTimeLapse = require('NewsSourceTimeLapse')
 
 require('./styles/app.scss')
 
@@ -17,7 +18,8 @@ ReactDOM.render(
     <Route path="/twist" component={Main}>
       <Route path="palavras-frequentes" component={WordCloud} />
       <Route path="serie-temporal" component={NewsTimeSeries} />
-      <Route path="fontes-donut" component={NewsDonut} />
+      <Route path="fontes-donut" component={NewsSourceDonut} />
+      <Route path="fontes-time-lapse" component={NewsSourceTimeLapse} />
       <IndexRoute component={Home} />
     </Route>
   </Router>,

@@ -2,7 +2,7 @@ const d3 = require('d3')
 
 const { environmentUrl } = require('../utilities')
 
-function drawNewsDonut () {
+function drawNewsSourceDonut () {
 
   if (visConfig.newsSources === undefined) {
     d3.json(environmentUrl('js/news-source.json'), function(error, json) {
@@ -161,4 +161,4 @@ function drawNewsDonut () {
 }
 
 
-module.exports = drawNewsDonut
+module.exports = drawNewsSourceDonut

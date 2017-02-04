@@ -2,11 +2,11 @@ const React = require('react')
 
 const VisTitle = require('VisTitle')
 
-const drawNewsDonut = require('../visualizations/news-donut')
+const drawNewsDonut = require('../visualizations/news-source-donut')
 
-const NewsDonut = React.createClass({
+const NewsSourceDonut = React.createClass({
   componentDidMount: function() {
-    drawNewsDonut()
+    drawNewsSourceDonut()
   },
   render: function() {
     return (
@@ -22,4 +22,4 @@ const NewsDonut = React.createClass({
 })
 
 
-module.exports = NewsDonut
+module.exports = NewsSourceDonut
