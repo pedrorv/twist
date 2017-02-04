@@ -52019,7 +52019,7 @@
 
 	var VisTitle = __webpack_require__(236);
 
-	var drawNewsDonut = __webpack_require__(358);
+	var drawNewsSourceDonut = __webpack_require__(358);
 
 	var NewsSourceDonut = React.createClass({
 	  displayName: 'NewsSourceDonut',
@@ -52251,17 +52251,21 @@
 	      })
 	    };
 
-	    svg.append('g').attr('class', 'x-axis').attr('transform', 'translate(-10,' + (visConfig.height - 2 * visConfig.ntsPaddingY) + ')').call(xAxis);
+	    svg.append('g').attr('class', 'x-axis').attr('transform', 'translate(-10,' + (visConfig.height - 2 * visConfig.ntsPaddingY) + ')').call(xAxis).selectAll('text').attr('y', 15);
+
+	    var textSource = d3.select('svg#news-time-lapse').append('g').attr('class', 'texts').append('text').attr('x', visConfig.width / 2).attr('y', 20).attr('font-size', 18).attr('text-anchor', 'middle').attr('class', 'message').text('Fonte sobre Candidato em Data');
+
+	    var textLink = d3.select('g.texts').append('a').attr('xlink:href', 'https://www.google.com.br').attr('target', '_blank').append('text').attr('x', visConfig.width / 2).attr('y', 50).attr('font-size', 18).attr('text-anchor', 'middle').attr('class', 'message').text('Nome da notícia');
 
 	    var node = d3.select('svg#news-time-lapse').append('g').attr('class', 'sources').selectAll('.node').data(bubbleChart.nodes(bubbleChartData).filter(function (d) {
 	      return !d.children;
 	    })).enter().append('g').attr('class', 'node').attr('transform', function (d) {
 	      return 'translate(' + d.x + ',' + d.y + ')';
-	    }).append('circle').attr('r', function (d) {
-	      return d.r;
-	    }).attr('fill', '#fff').attr('stroke', '#000').attr('stroke-width', 1).attr('fonte', function (d) {
+	    }).append('circle').attr('class', function (d) {
 	      return d.className;
-	    });
+	    }).attr('r', function (d) {
+	      return d.r;
+	    }).attr('fill', '#fff').attr('stroke', '#000').attr('stroke-width', 1);
 	  }
 	}
 

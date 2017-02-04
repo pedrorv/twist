@@ -2,7 +2,7 @@ const React = require('react')
 
 const VisTitle = require('VisTitle')
 
-const drawNewsDonut = require('../visualizations/news-source-donut')
+const drawNewsSourceDonut = require('../visualizations/news-source-donut')
 
 const NewsSourceDonut = React.createClass({
   componentDidMount: function() {
