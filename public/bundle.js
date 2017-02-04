@@ -52201,7 +52201,7 @@
 
 	function drawNewsSourceTimeLapse() {
 
-	  if (visConfig.newsSources === undefined || visConfig.unformatedData === undefined) {
+	  if (visConfig.newsSources === undefined || visConfig.newsDataHours === undefined) {
 	    d3.json(environmentUrl('js/news-source.json'), function (error, json) {
 	      if (error) return console.warn(error);
 
@@ -52270,7 +52270,9 @@
 	      return d.className;
 	    }).attr('r', function (d) {
 	      return d.r;
-	    }).attr('fill', '#fff').attr('stroke', '#000').attr('stroke-width', 1);
+	    }).attr('fill', '#eee').attr('opacity', 0).transition().duration(200).delay(function (d, i) {
+	      return i * 50;
+	    }).attr('opacity', 1);
 
 	    var currentNews = void 0;
 
@@ -52313,7 +52315,7 @@
 
 	      textLink.transition().duration(200).attr('opacity', 0);
 
-	      d3.select('circle.' + previousData.fonte).transition().duration(200).attr('fill', '#fff').attr('stroke-width', 1);
+	      d3.select('circle.' + previousData.fonte).transition().duration(200).attr('fill', '#eee');
 
 	      d3.select('a.link').attr('xlink:href', data.url);
 
@@ -52321,7 +52323,7 @@
 
 	      textLink.text(data['título']).transition().duration(200).delay(200).attr('opacity', 1);
 
-	      d3.select('circle.' + data.fonte).transition().duration(200).delay(200).attr('fill', data.candidato === 'Freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor).attr('stroke-width', 3);
+	      d3.select('circle.' + data.fonte).transition().duration(200).delay(200).attr('fill', data.candidato === 'Freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor);
 	    }
 
 	    animateNews();

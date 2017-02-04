@@ -7,7 +7,7 @@ const { environmentUrl } = require('../utilities')
 
 function drawNewsSourceTimeLapse () {
 
-  if (visConfig.newsSources === undefined || visConfig.unformatedData === undefined) {
+  if (visConfig.newsSources === undefined || visConfig.newsDataHours === undefined) {
     d3.json(environmentUrl('js/news-source.json'), function(error, json) {
       if (error) return console.warn(error)
       
@@ -120,9 +120,12 @@ function drawNewsSourceTimeLapse () {
                   .append('circle')
                   .attr('class', (d) => d.className)
                   .attr('r', (d) => d.r)
-                  .attr('fill', '#fff')
-                  .attr('stroke', '#000')
-                  .attr('stroke-width', 1)
+                  .attr('fill', '#eee')
+                  .attr('opacity', 0)
+                  .transition()
+                  .duration(200)
+                  .delay((d, i) => i * 50)
+                  .attr('opacity', 1)
 
     let currentNews
     
@@ -185,8 +188,7 @@ function drawNewsSourceTimeLapse () {
         d3.select('circle.' + previousData.fonte)
           .transition()
           .duration(200)
-          .attr('fill', '#fff')
-          .attr('stroke-width', 1)
+          .attr('fill', '#eee')
 
         
         d3.select('a.link').attr('xlink:href', data.url)
@@ -208,7 +210,6 @@ function drawNewsSourceTimeLapse () {
           .duration(200)
           .delay(200)
           .attr('fill', (data.candidato === 'Freixo') ? visConfig.FreixoColor : visConfig.CrivellaColor)
-          .attr('stroke-width', 3)
 
     }
 
