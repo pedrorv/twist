@@ -4,7 +4,6 @@ const { Route, Router, IndexRoute, browserHistory } = require('react-router')
 
 const Main = require('Main')
 const Home = require('Home')
-const About = require('About')
 
 const WordCloud = require('WordCloud')
 const NewsTimeSeries = require('NewsTimeSeries')

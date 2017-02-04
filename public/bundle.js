@@ -57,7 +57,6 @@
 
 	var Main = __webpack_require__(233);
 	var Home = __webpack_require__(351);
-	var About = __webpack_require__(352);
 
 	var WordCloud = __webpack_require__(353);
 	var NewsTimeSeries = __webpack_require__(235);
@@ -51286,36 +51285,7 @@
 	module.exports = Home;
 
 /***/ },
-/* 352 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-
-	var _require = __webpack_require__(178),
-	    Link = _require.Link;
-
-	var About = function About(props) {
-	    return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	            'p',
-	            null,
-	            'About Component'
-	        ),
-	        React.createElement(
-	            Link,
-	            { to: '/twist' },
-	            'Home'
-	        )
-	    );
-	};
-
-	module.exports = About;
-
-/***/ },
+/* 352 */,
 /* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -52182,7 +52152,31 @@
 	      'div',
 	      { className: 'flexbox vis-holder' },
 	      React.createElement(VisTitle, { title: 'Time lapse not\xEDcias' }),
-	      React.createElement('svg', { id: 'news-time-lapse', height: visConfig.height, width: visConfig.width })
+	      React.createElement('svg', { id: 'news-time-lapse', height: visConfig.height, width: visConfig.width }),
+	      React.createElement(
+	        'div',
+	        { className: 'flexbox controls' },
+	        React.createElement(
+	          'button',
+	          { className: 'play' },
+	          'Play'
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'pause' },
+	          'Pause'
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'back' },
+	          'Voltar'
+	        ),
+	        React.createElement(
+	          'button',
+	          { className: 'forward' },
+	          'Avan\xE7ar'
+	        )
+	      )
 	    );
 	  }
 	});
@@ -52195,9 +52189,12 @@
 
 	'use strict';
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	// Based on http://bl.ocks.org/mmattozzi/7018021
 
 	var d3 = __webpack_require__(238);
+	var moment = __webpack_require__(239);
 
 	var _require = __webpack_require__(350),
 	    environmentUrl = _require.environmentUrl;
@@ -52213,7 +52210,11 @@
 	      d3.json(environmentUrl('js/data.json'), function (error2, json2) {
 	        if (error2) return console.warn(error2);
 
-	        visConfig.unformatedData = json2;
+	        visConfig.newsDataHours = json2.map(function (news) {
+	          return _extends({}, news, {
+	            data: new moment(news.data).format('DD-MM-YYYY HH:mm:ss')
+	          });
+	        });
 
 	        showVis();
 	      });
@@ -52228,13 +52229,13 @@
 
 	    var newsSources = Object.keys(visConfig.newsSources);
 
-	    var formatDate = d3.time.format("%Y-%m-%dT%H:%M:%SZ");
+	    var formatDate = d3.time.format("%d-%m-%Y %H:%M:%S");
 
-	    var xScale = d3.time.scale().range([visConfig.ntsPaddingX, visConfig.width - 2 * visConfig.ntsPaddingX]).domain(d3.extent(visConfig.unformatedData, function (d) {
+	    var xScale = d3.time.scale().range([visConfig.ntsPaddingX, visConfig.width - 2 * visConfig.ntsPaddingX]).domain(d3.extent(visConfig.newsDataHours, function (d) {
 	      return formatDate.parse(d.data);
 	    }));
 
-	    var xAxis = d3.svg.axis().scale(xScale).orient('bottom').tickFormat(d3.time.format('%d/%m')).tickSize(visConfig.ntsTickSize);
+	    var xAxis = d3.svg.axis().scale(xScale).orient('bottom').tickFormat(d3.time.format('%d/%m')).tickSize(visConfig.nstlTickSize);
 
 	    var bubbleChartWidth = visConfig.width - 20;
 	    var bubbleChartHeight = visConfig.height - 20;
@@ -52251,11 +52252,15 @@
 	      })
 	    };
 
+	    var sortedNews = visConfig.newsDataHours.sort(function (a, b) {
+	      return formatDate.parse(a.data) - formatDate.parse(b.data);
+	    });
+
 	    svg.append('g').attr('class', 'x-axis').attr('transform', 'translate(-10,' + (visConfig.height - 2 * visConfig.ntsPaddingY) + ')').call(xAxis).selectAll('text').attr('y', 15);
 
-	    var textSource = d3.select('svg#news-time-lapse').append('g').attr('class', 'texts').append('text').attr('x', visConfig.width / 2).attr('y', 20).attr('font-size', 18).attr('text-anchor', 'middle').attr('class', 'message').text('Fonte sobre Candidato em Data');
+	    var textSource = d3.select('svg#news-time-lapse').append('g').attr('class', 'texts').append('text').attr('x', visConfig.width / 2).attr('y', 20).attr('font-size', visConfig.nstlTextSize).attr('text-anchor', 'middle').attr('class', 'message').text('Fonte sobre Candidato em Data').attr('opacity', 0);
 
-	    var textLink = d3.select('g.texts').append('a').attr('xlink:href', 'https://www.google.com.br').attr('target', '_blank').append('text').attr('x', visConfig.width / 2).attr('y', 50).attr('font-size', 18).attr('text-anchor', 'middle').attr('class', 'message').text('Nome da notícia');
+	    var textLink = d3.select('g.texts').append('a').attr('class', 'link').attr('xlink:href', 'https://www.google.com.br').attr('target', '_blank').on('click', clearNewsAnimation).append('text').attr('x', visConfig.width / 2).attr('y', 50).attr('font-size', visConfig.nstlTextSize).attr('text-anchor', 'middle').attr('class', 'message').text('Nome da notícia').attr('text-decoration', 'underline').attr('fill', 'blue').attr('opacity', 0);
 
 	    var node = d3.select('svg#news-time-lapse').append('g').attr('class', 'sources').selectAll('.node').data(bubbleChart.nodes(bubbleChartData).filter(function (d) {
 	      return !d.children;
@@ -52266,6 +52271,75 @@
 	    }).attr('r', function (d) {
 	      return d.r;
 	    }).attr('fill', '#fff').attr('stroke', '#000').attr('stroke-width', 1);
+
+	    var currentNews = void 0;
+
+	    function returnXPositionCurrentNews(index) {
+	      return xScale(formatDate.parse(sortedNews[index].data));
+	    }
+
+	    var highlightedNews = d3.select('g.x-axis').append('circle').attr('class', 'current-news').attr('cx', 20).attr('cy', visConfig.nstlCurrentNewsCy).attr('r', visConfig.nstlCurrentNewsRadius).attr('fill', '#000').attr('opacity', 0);
+
+	    function animateNews() {
+	      clearNewsAnimation();
+
+	      visConfig.timelapseInterval = setInterval(function () {
+	        manageAnimationState(1);
+	      }, 2500);
+	    }
+
+	    function manageAnimationState(step) {
+	      if (currentNews === undefined) currentNews = 0;
+
+	      currentNews += step;
+
+	      if (currentNews === -1) currentNews = sortedNews.length - 1;else if (currentNews === sortedNews.length) currentNews = 0;
+
+	      var data = sortedNews[currentNews];
+
+	      var previousIndex = void 0;
+
+	      if (step === 1) {
+	        previousIndex = currentNews === 0 ? sortedNews.length - 1 : currentNews - 1;
+	      } else {
+	        previousIndex = currentNews === sortedNews.length - 1 ? 0 : currentNews + 1;
+	      }
+
+	      var previousData = sortedNews[previousIndex];
+
+	      d3.select('circle.current-news').transition().duration(200).attr('opacity', 1).attr('cx', returnXPositionCurrentNews(currentNews));
+
+	      textSource.transition().duration(200).attr('opacity', 0);
+
+	      textLink.transition().duration(200).attr('opacity', 0);
+
+	      d3.select('circle.' + previousData.fonte).transition().duration(200).attr('fill', '#fff').attr('stroke-width', 1);
+
+	      d3.select('a.link').attr('xlink:href', data.url);
+
+	      textSource.text(data.fonte + ' sobre ' + data.candidato + ' em ' + data.data).transition().duration(200).delay(200).attr('opacity', 1);
+
+	      textLink.text(data['título']).transition().duration(200).delay(200).attr('opacity', 1);
+
+	      d3.select('circle.' + data.fonte).transition().duration(200).delay(200).attr('fill', data.candidato === 'Freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor).attr('stroke-width', 3);
+	    }
+
+	    animateNews();
+
+	    function clearNewsAnimation() {
+	      clearInterval(visConfig.timelapseInterval);
+	    }
+
+	    d3.select('button.play').on('click', animateNews);
+	    d3.select('button.pause').on('click', clearNewsAnimation);
+	    d3.select('button.back').on('click', function () {
+	      clearNewsAnimation();
+	      manageAnimationState(-1);
+	    });
+	    d3.select('button.forward').on('click', function () {
+	      clearNewsAnimation();
+	      manageAnimationState(1);
+	    });
 	  }
 	}
 

@@ -26,5 +26,13 @@ var visConfig = {
 
   nspcChartRadius: 200,
   nspcChartTransition: 500,
-  nspcChartDelay: 300
+  nspcChartDelay: 300,
+
+  // News Source Time Lapse
+
+  nstlTickSize: 2,
+  nstlCurrentNewsRadius: 5,
+  nstlCurrentNewsCy: 1.5, // nstlCurrentNewsRadius/2 - nstlTickSize/2
+  nstlTextSize: 18,
+
 }
