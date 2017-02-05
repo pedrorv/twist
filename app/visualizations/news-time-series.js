@@ -93,37 +93,63 @@ function drawNewsTimeSeries () {
        .attr('transform', 'translate(' + visConfig.ntsPaddingX + ',' + (-visConfig.ntsPaddingY+visConfig.ntsTickSize) + ')')
        .call(yAxis)
 
+    let highlight = d3.select('body')
+                      .append('div')
+                      .style('position', 'absolute')
+                      .style('z-index', 30)
+                      .style('visibility', 'hidden')
+                      .style('color', 'white')
+                      .style('padding', '10px')
+                      .style('background-color', 'rgba(0,0,0,0.8)')
+                      .style('border-radius', '5px')
+                      .style('font', '12px monospace')
+                      .text('test')
+
+
 
     ;['crivella', 'freixo'].forEach((candidate, index) => {
+
+      let data = (candidate === 'freixo') ? freixoData : crivellaData
+      let color = (candidate === 'freixo') ? visConfig.FreixoColor : visConfig.CrivellaColor
       
+      svg.append('path')
+       .attr('class', candidate)
+       .attr('transform', 'translate(0,' + (-visConfig.ntsPaddingY+visConfig.ntsTickSize) + ')')
+       .attr('d', line(data))
+       .attr('fill', 'transparent')
+       .attr('stroke', color)
+       .attr('stroke-width', 2)
+       .attr('opacity', 0)
+       .transition()
+       .duration(300)
+       .delay(300)
+       .attr('opacity', 1)
+
       svg.selectAll('circle.' + candidate)
-       .data((candidate === 'freixo') ? freixoData : crivellaData)
+       .data(data)
        .enter()
        .append('circle')
        .attr('class', candidate)
        .attr('transform', 'translate(0,' + (-visConfig.ntsPaddingY+visConfig.ntsTickSize) + ')')
        .attr('cx', (d) => xScale(d.date))
        .attr('cy', (d) => yScale(d.count))
-       .attr('r', 5)
-       .attr('fill', (candidate === 'freixo') ? visConfig.FreixoColor : visConfig.CrivellaColor)
-       .attr('stroke', 0)
+       .attr('r', 3)
+       .attr('fill', '#fff')
+       .attr('stroke', color)
+       .attr('stroke-width', 2)
        .attr('opacity', 0)
+       .on('mouseover', (d) => {
+         highlight.text(d.count + ((d.count > 1) ? ' notícias' : ' notícia'))
+         highlight.style('visibility', 'visible')
+       })
+       .on('mousemove', () => {
+         highlight.style('top', (d3.event.pageY - 10) + 'px').style('left', (d3.event.pageX + 10) + 'px')
+       })
+       .on('mouseout', () => {
+         highlight.style('visibility', 'hidden')
+       })
        .transition()
        .duration(300)
-       .delay(index * 300)
-       .attr('opacity', 1)
-
-      svg.append('path')
-       .attr('class', candidate)
-       .attr('transform', 'translate(0,' + (-visConfig.ntsPaddingY+visConfig.ntsTickSize) + ')')
-       .attr('d', line((candidate === 'freixo') ? freixoData : crivellaData))
-       .attr('fill', 'transparent')
-       .attr('stroke', (candidate === 'freixo') ? visConfig.FreixoColor : visConfig.CrivellaColor)
-       .attr('stroke-width', visConfig.ntsPathSize)
-       .attr('opacity', 0)
-       .transition()
-       .duration(300)
-       .delay(index * 300)
        .attr('opacity', 1)
 
     })
@@ -132,7 +158,8 @@ function drawNewsTimeSeries () {
       let button = d3.select(this)
 
       button.classed('active', !button.classed('active'))
-      d3.selectAll('.' + button.attr('value')).transition().duration(300).attr('opacity', button.classed('active') ? 1 : 0)
+      d3.selectAll('circle.' + button.attr('value')).transition().duration(300).style('visibility', button.classed('active') ? 'visible' : 'hidden')
+      d3.selectAll('path.' + button.attr('value')).transition().duration(300).style('visibility', button.classed('active') ? 'visible' : 'hidden')
     })
   }
 }

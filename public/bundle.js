@@ -58,12 +58,12 @@
 	var Main = __webpack_require__(233);
 	var Home = __webpack_require__(351);
 
-	var WordCloud = __webpack_require__(353);
+	var WordCloud = __webpack_require__(352);
 	var NewsTimeSeries = __webpack_require__(235);
-	var NewsSourceDonut = __webpack_require__(357);
-	var NewsSourceTimeLapse = __webpack_require__(359);
+	var NewsSourceDonut = __webpack_require__(356);
+	var NewsSourceTimeLapse = __webpack_require__(358);
 
-	__webpack_require__(361);
+	__webpack_require__(360);
 
 	ReactDOM.render(React.createElement(
 	  Router,
@@ -26763,22 +26763,35 @@
 
 	    svg.append('g').attr('class', 'x-axis').attr('transform', 'translate(0,' + (visConfig.height - 2 * visConfig.ntsPaddingY) + ')').call(xAxis);
 
-	    svg.append('g').attr('class', 'y-axis').attr('transform', 'translate(' + visConfig.ntsPaddingX + ',' + (-visConfig.ntsPaddingY + visConfig.ntsTickSize) + ')').call(yAxis);['crivella', 'freixo'].forEach(function (candidate, index) {
+	    svg.append('g').attr('class', 'y-axis').attr('transform', 'translate(' + visConfig.ntsPaddingX + ',' + (-visConfig.ntsPaddingY + visConfig.ntsTickSize) + ')').call(yAxis);
 
-	      svg.selectAll('circle.' + candidate).data(candidate === 'freixo' ? freixoData : crivellaData).enter().append('circle').attr('class', candidate).attr('transform', 'translate(0,' + (-visConfig.ntsPaddingY + visConfig.ntsTickSize) + ')').attr('cx', function (d) {
+	    var highlight = d3.select('body').append('div').style('position', 'absolute').style('z-index', 30).style('visibility', 'hidden').style('color', 'white').style('padding', '10px').style('background-color', 'rgba(0,0,0,0.8)').style('border-radius', '5px').style('font', '12px monospace').text('test');['crivella', 'freixo'].forEach(function (candidate, index) {
+
+	      var data = candidate === 'freixo' ? freixoData : crivellaData;
+	      var color = candidate === 'freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor;
+
+	      svg.append('path').attr('class', candidate).attr('transform', 'translate(0,' + (-visConfig.ntsPaddingY + visConfig.ntsTickSize) + ')').attr('d', line(data)).attr('fill', 'transparent').attr('stroke', color).attr('stroke-width', 2).attr('opacity', 0).transition().duration(300).delay(300).attr('opacity', 1);
+
+	      svg.selectAll('circle.' + candidate).data(data).enter().append('circle').attr('class', candidate).attr('transform', 'translate(0,' + (-visConfig.ntsPaddingY + visConfig.ntsTickSize) + ')').attr('cx', function (d) {
 	        return xScale(d.date);
 	      }).attr('cy', function (d) {
 	        return yScale(d.count);
-	      }).attr('r', 5).attr('fill', candidate === 'freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor).attr('stroke', 0).attr('opacity', 0).transition().duration(300).delay(index * 300).attr('opacity', 1);
-
-	      svg.append('path').attr('class', candidate).attr('transform', 'translate(0,' + (-visConfig.ntsPaddingY + visConfig.ntsTickSize) + ')').attr('d', line(candidate === 'freixo' ? freixoData : crivellaData)).attr('fill', 'transparent').attr('stroke', candidate === 'freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor).attr('stroke-width', visConfig.ntsPathSize).attr('opacity', 0).transition().duration(300).delay(index * 300).attr('opacity', 1);
+	      }).attr('r', 3).attr('fill', '#fff').attr('stroke', color).attr('stroke-width', 2).attr('opacity', 0).on('mouseover', function (d) {
+	        highlight.text(d.count + (d.count > 1 ? ' notícias' : ' notícia'));
+	        highlight.style('visibility', 'visible');
+	      }).on('mousemove', function () {
+	        highlight.style('top', d3.event.pageY - 10 + 'px').style('left', d3.event.pageX + 10 + 'px');
+	      }).on('mouseout', function () {
+	        highlight.style('visibility', 'hidden');
+	      }).transition().duration(300).attr('opacity', 1);
 	    });
 
 	    d3.selectAll('p.checkbutton').on('click', function () {
 	      var button = d3.select(this);
 
 	      button.classed('active', !button.classed('active'));
-	      d3.selectAll('.' + button.attr('value')).transition().duration(300).attr('opacity', button.classed('active') ? 1 : 0);
+	      d3.selectAll('circle.' + button.attr('value')).transition().duration(300).style('visibility', button.classed('active') ? 'visible' : 'hidden');
+	      d3.selectAll('path.' + button.attr('value')).transition().duration(300).style('visibility', button.classed('active') ? 'visible' : 'hidden');
 	    });
 	  }
 	}
@@ -51285,8 +51298,7 @@
 	module.exports = Home;
 
 /***/ },
-/* 352 */,
-/* 353 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51294,7 +51306,7 @@
 	var React = __webpack_require__(1);
 
 	var VisTitle = __webpack_require__(236);
-	var drawWordCloud = __webpack_require__(354);
+	var drawWordCloud = __webpack_require__(353);
 
 	var WordCloud = React.createClass({
 	  displayName: 'WordCloud',
@@ -51339,7 +51351,7 @@
 	module.exports = WordCloud;
 
 /***/ },
-/* 354 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51352,7 +51364,7 @@
 	    environmentUrl = _require.environmentUrl,
 	    capitalize = _require.capitalize;
 
-	d3.layout.cloud = __webpack_require__(355);
+	d3.layout.cloud = __webpack_require__(354);
 
 	function drawWordCloud() {
 
@@ -51466,13 +51478,13 @@
 	module.exports = drawWordCloud;
 
 /***/ },
-/* 355 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Word cloud layout by Jason Davies, https://www.jasondavies.com/wordcloud/
 	// Algorithm due to Jonathan Feinberg, http://static.mrfeinberg.com/bv_ch03.pdf
 
-	var dispatch = __webpack_require__(356).dispatch;
+	var dispatch = __webpack_require__(355).dispatch;
 
 	var cloudRadians = Math.PI / 180,
 	    cw = 1 << 11 >> 5,
@@ -51871,7 +51883,7 @@
 
 
 /***/ },
-/* 356 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function (global, factory) {
@@ -51980,7 +51992,7 @@
 	}));
 
 /***/ },
-/* 357 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51989,7 +52001,7 @@
 
 	var VisTitle = __webpack_require__(236);
 
-	var drawNewsSourceDonut = __webpack_require__(358);
+	var drawNewsSourceDonut = __webpack_require__(357);
 
 	var NewsSourceDonut = React.createClass({
 	  displayName: 'NewsSourceDonut',
@@ -52019,7 +52031,7 @@
 	module.exports = NewsSourceDonut;
 
 /***/ },
-/* 358 */
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52130,7 +52142,7 @@
 	module.exports = drawNewsSourceDonut;
 
 /***/ },
-/* 359 */
+/* 358 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52139,7 +52151,7 @@
 
 	var VisTitle = __webpack_require__(236);
 
-	var drawNewsSourceTimeLapse = __webpack_require__(360);
+	var drawNewsSourceTimeLapse = __webpack_require__(359);
 
 	var NewsSourceTimeLapse = React.createClass({
 	  displayName: 'NewsSourceTimeLapse',
@@ -52184,7 +52196,7 @@
 	module.exports = NewsSourceTimeLapse;
 
 /***/ },
-/* 360 */
+/* 359 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52348,7 +52360,7 @@
 	module.exports = drawNewsSourceTimeLapse;
 
 /***/ },
-/* 361 */
+/* 360 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52356,10 +52368,10 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(362);
+	var content = __webpack_require__(361);
 	if (typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(364)(content, {});
+	var update = __webpack_require__(363)(content, {});
 	if (content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if (false) {
@@ -52378,21 +52390,21 @@
 	}
 
 /***/ },
-/* 362 */
+/* 361 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(363)();
+	exports = module.exports = __webpack_require__(362)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\nbutton, hr, input {\n  overflow: visible; }\n\naudio, canvas, progress, video {\n  display: inline-block; }\n\nprogress, sub, sup {\n  vertical-align: baseline; }\n\nhtml {\n  font-family: sans-serif;\n  line-height: 1.15;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nbody {\n  margin: 0; }\n\nmenu, article, aside, details, footer, header, nav, section {\n  display: block; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nfigcaption, figure, main {\n  display: block; }\n\nfigure {\n  margin: 1em 40px; }\n\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,monospace;\n  font-size: 1em; }\n\na {\n  background-color: transparent;\n  -webkit-text-decoration-skip: objects; }\n\na:active, a:hover {\n  outline-width: 0; }\n\nabbr[title] {\n  border-bottom: none;\n  text-decoration: underline;\n  text-decoration: underline dotted; }\n\nb, strong {\n  font-weight: bolder; }\n\ndfn {\n  font-style: italic; }\n\nmark {\n  background-color: #ff0;\n  color: #000; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative; }\n\nsub {\n  bottom: -.25em; }\n\nsup {\n  top: -.5em; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\nimg {\n  border-style: none; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nbutton, input, optgroup, select, textarea {\n  font-family: sans-serif;\n  font-size: 100%;\n  line-height: 1.15;\n  margin: 0; }\n\nbutton, select {\n  text-transform: none; }\n\n[type=submit], [type=reset], button, html [type=button] {\n  -webkit-appearance: button; }\n\n[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {\n  outline: ButtonText dotted 1px; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  box-sizing: border-box;\n  color: inherit;\n  display: table;\n  max-width: 100%;\n  padding: 0;\n  white-space: normal; }\n\ntextarea {\n  overflow: auto; }\n\n[type=checkbox], [type=radio] {\n  box-sizing: border-box;\n  padding: 0; }\n\n[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {\n  height: auto; }\n\n[type=search] {\n  -webkit-appearance: textfield;\n  outline-offset: -2px; }\n\n[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit; }\n\nsummary {\n  display: list-item; }\n\n[hidden], template {\n  display: none; }\n\ndiv.flexbox {\n  display: flex; }\n  div.flexbox.vis-holder {\n    flex-direction: column;\n    align-items: center;\n    box-shadow: 2px 2px 3px #333;\n    margin: 15px; }\n    div.flexbox.vis-holder svg {\n      margin: 20px 10px; }\n\ndiv.navigation {\n  width: 20%;\n  background: #bbb;\n  border-radius: 20px;\n  flex-direction: column;\n  padding: 20px 0; }\n  div.navigation a {\n    text-align: center;\n    padding: 10px 20px;\n    font-size: 18px;\n    cursor: pointer;\n    color: white;\n    font-weight: bold;\n    text-decoration: none; }\n    div.navigation a:hover, div.navigation a.active {\n      background: #959595; }\n\ndiv.vis-title {\n  justify-content: center;\n  padding: 10px 0;\n  background: #f7f7f7;\n  z-index: 10;\n  width: 100%; }\n  div.vis-title h2 {\n    font-size: 25px;\n    margin: 0;\n    color: #444; }\n\ndiv.main-component {\n  flex-direction: column;\n  align-items: center; }\n\ntext.word {\n  text-transform: uppercase;\n  font-family: monospace; }\n\nh2 {\n  color: #333;\n  font-size: 22px; }\n\ndiv.vis-options {\n  display: flex;\n  justify-content: center; }\n  div.vis-options p.button {\n    display: inline-block;\n    padding: 10px 20px;\n    font-size: 18px;\n    cursor: pointer;\n    background: #09A8A3;\n    border-radius: 5px;\n    margin-right: 10px;\n    color: white;\n    font-weight: bold; }\n    div.vis-options p.button:hover, div.vis-options p.button.active {\n      background: #055f5d; }\n\ndiv.vis-options p.checkbutton {\n  display: inline-block;\n  padding: 10px 20px;\n  font-size: 18px;\n  cursor: pointer;\n  border-radius: 5px;\n  margin-right: 10px;\n  font-weight: bold; }\n  div.vis-options p.checkbutton.freixo {\n    border: 3px solid #FFD00D;\n    color: #444; }\n    div.vis-options p.checkbutton.freixo.active {\n      background: #FFD00D; }\n    div.vis-options p.checkbutton.freixo:hover {\n      background: #c09a00; }\n  div.vis-options p.checkbutton.crivella {\n    border: 3px solid #08547A;\n    color: #444; }\n    div.vis-options p.checkbutton.crivella.active {\n      background: #08547A;\n      color: #fff; }\n    div.vis-options p.checkbutton.crivella:hover {\n      background: #032332; }\n", ""]);
+	exports.push([module.id, "/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\nbutton, hr, input {\n  overflow: visible; }\n\naudio, canvas, progress, video {\n  display: inline-block; }\n\nprogress, sub, sup {\n  vertical-align: baseline; }\n\nhtml {\n  font-family: sans-serif;\n  line-height: 1.15;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nbody {\n  margin: 0; }\n\nmenu, article, aside, details, footer, header, nav, section {\n  display: block; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nfigcaption, figure, main {\n  display: block; }\n\nfigure {\n  margin: 1em 40px; }\n\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,monospace;\n  font-size: 1em; }\n\na {\n  background-color: transparent;\n  -webkit-text-decoration-skip: objects; }\n\na:active, a:hover {\n  outline-width: 0; }\n\nabbr[title] {\n  border-bottom: none;\n  text-decoration: underline;\n  text-decoration: underline dotted; }\n\nb, strong {\n  font-weight: bolder; }\n\ndfn {\n  font-style: italic; }\n\nmark {\n  background-color: #ff0;\n  color: #000; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative; }\n\nsub {\n  bottom: -.25em; }\n\nsup {\n  top: -.5em; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\nimg {\n  border-style: none; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nbutton, input, optgroup, select, textarea {\n  font-family: sans-serif;\n  font-size: 100%;\n  line-height: 1.15;\n  margin: 0; }\n\nbutton, select {\n  text-transform: none; }\n\n[type=submit], [type=reset], button, html [type=button] {\n  -webkit-appearance: button; }\n\n[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {\n  outline: ButtonText dotted 1px; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  box-sizing: border-box;\n  color: inherit;\n  display: table;\n  max-width: 100%;\n  padding: 0;\n  white-space: normal; }\n\ntextarea {\n  overflow: auto; }\n\n[type=checkbox], [type=radio] {\n  box-sizing: border-box;\n  padding: 0; }\n\n[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {\n  height: auto; }\n\n[type=search] {\n  -webkit-appearance: textfield;\n  outline-offset: -2px; }\n\n[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit; }\n\nsummary {\n  display: list-item; }\n\n[hidden], template {\n  display: none; }\n\ndiv.flexbox {\n  display: flex; }\n  div.flexbox.vis-holder {\n    flex-direction: column;\n    align-items: center;\n    box-shadow: 2px 2px 3px #333;\n    margin: 15px; }\n    div.flexbox.vis-holder svg {\n      margin: 20px 10px;\n      position: relative; }\n\ndiv.navigation {\n  width: 20%;\n  background: #bbb;\n  border-radius: 20px;\n  flex-direction: column;\n  padding: 20px 0; }\n  div.navigation a {\n    text-align: center;\n    padding: 10px 20px;\n    font-size: 18px;\n    cursor: pointer;\n    color: white;\n    font-weight: bold;\n    text-decoration: none; }\n    div.navigation a:hover, div.navigation a.active {\n      background: #959595; }\n\ndiv.vis-title {\n  justify-content: center;\n  padding: 10px 0;\n  background: #f7f7f7;\n  z-index: 10;\n  width: 100%; }\n  div.vis-title h2 {\n    font-size: 25px;\n    margin: 0;\n    color: #444; }\n\ndiv.main-component {\n  flex-direction: column;\n  align-items: center; }\n\ntext.word {\n  text-transform: uppercase;\n  font-family: monospace; }\n\nh2 {\n  color: #333;\n  font-size: 22px; }\n\ndiv.vis-options {\n  display: flex;\n  justify-content: center; }\n  div.vis-options p.button {\n    display: inline-block;\n    padding: 10px 20px;\n    font-size: 18px;\n    cursor: pointer;\n    background: #09A8A3;\n    border-radius: 5px;\n    margin-right: 10px;\n    color: white;\n    font-weight: bold; }\n    div.vis-options p.button:hover, div.vis-options p.button.active {\n      background: #055f5d; }\n\ndiv.vis-options p.checkbutton {\n  display: inline-block;\n  padding: 10px 20px;\n  font-size: 18px;\n  cursor: pointer;\n  border-radius: 5px;\n  margin-right: 10px;\n  font-weight: bold; }\n  div.vis-options p.checkbutton.freixo {\n    border: 3px solid #FFD00D;\n    color: #444; }\n    div.vis-options p.checkbutton.freixo.active {\n      background: #FFD00D; }\n    div.vis-options p.checkbutton.freixo:hover {\n      background: #c09a00; }\n  div.vis-options p.checkbutton.crivella {\n    border: 3px solid #08547A;\n    color: #444; }\n    div.vis-options p.checkbutton.crivella.active {\n      background: #08547A;\n      color: #fff; }\n    div.vis-options p.checkbutton.crivella:hover {\n      background: #032332; }\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 363 */
+/* 362 */
 /***/ function(module, exports) {
 
 	/*
@@ -52448,7 +52460,7 @@
 
 
 /***/ },
-/* 364 */
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
