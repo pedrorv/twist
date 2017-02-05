@@ -22,11 +22,14 @@ var visConfig = {
   ntsPathTransitionDuration: 400,
   ntsPathTransitionDelay: 400,
 
-  // News Source Pie Charts specs
+  // News Source Donut Chart specs
 
-  nspcChartRadius: 200,
-  nspcChartTransition: 500,
-  nspcChartDelay: 300,
+
+  nsdcVisWidth: 400,
+  nsdcVisHeight: 400,
+  nsdcChartRadius: 200,
+  nsdcChartTransition: 500,
+  nsdcChartDelay: 300,
 
   // News Source Time Lapse
 

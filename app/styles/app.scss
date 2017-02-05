@@ -1,6 +1,7 @@
 @import 'base/normalize';
 @import 'base/variables';
 
+
 div.flexbox {
   display: flex;
 
@@ -8,12 +9,19 @@ div.flexbox {
     flex-direction: column;
     align-items: center;
     box-shadow: 2px 2px 3px #333;
-    margin: 15px;
+    margin-top: 20px;
+    align-self: flex-start;
 
     svg {
-      margin: 20px 10px;
+      margin: 5px;
       position: relative;
     }
+  }
+
+  &.visualizations-wrapper {
+    width: 1350px;
+    flex-wrap: wrap;
+    justify-content: space-around;
   }
 }
 

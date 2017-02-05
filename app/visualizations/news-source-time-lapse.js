@@ -133,14 +133,14 @@ function drawNewsSourceTimeLapse () {
       return xScale(formatDate.parse(sortedNews[index].data))
     }
 
-    let highlightedNews = d3.select('g.x-axis')
-                            .append('circle')
-                            .attr('class', 'current-news')
-                            .attr('cx', 20)
-                            .attr('cy', visConfig.nstlCurrentNewsCy)
-                            .attr('r', visConfig.nstlCurrentNewsRadius)
-                            .attr('fill', '#000')
-                            .attr('opacity', 0)
+    let highlightedNews = svg.select('g.x-axis')
+                              .append('circle')
+                              .attr('class', 'current-news')
+                              .attr('cx', 20)
+                              .attr('cy', visConfig.nstlCurrentNewsCy)
+                              .attr('r', visConfig.nstlCurrentNewsRadius)
+                              .attr('fill', '#000')
+                              .attr('opacity', 0)
 
     
 

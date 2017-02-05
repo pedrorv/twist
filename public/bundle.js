@@ -58,10 +58,8 @@
 	var Main = __webpack_require__(233);
 	var Home = __webpack_require__(351);
 
-	var WordCloud = __webpack_require__(352);
-	var NewsTimeSeries = __webpack_require__(235);
-	var NewsSourceDonut = __webpack_require__(356);
-	var NewsSourceTimeLapse = __webpack_require__(358);
+	var TemporalAnalysis = __webpack_require__(364);
+	var FrequencyAnalysis = __webpack_require__(365);
 
 	__webpack_require__(360);
 
@@ -71,10 +69,8 @@
 	  React.createElement(
 	    Route,
 	    { path: '/twist', component: Main },
-	    React.createElement(Route, { path: 'palavras-frequentes', component: WordCloud }),
-	    React.createElement(Route, { path: 'serie-temporal', component: NewsTimeSeries }),
-	    React.createElement(Route, { path: 'fontes-donut', component: NewsSourceDonut }),
-	    React.createElement(Route, { path: 'fontes-time-lapse', component: NewsSourceTimeLapse }),
+	    React.createElement(Route, { path: 'analises-temporais', component: TemporalAnalysis }),
+	    React.createElement(Route, { path: 'analises-frequencia', component: FrequencyAnalysis }),
 	    React.createElement(IndexRoute, { component: Home })
 	  )
 	), document.getElementById('app'));
@@ -26554,7 +26550,6 @@
 	var React = __webpack_require__(1);
 
 	var Nav = __webpack_require__(234);
-	var NewsTimeSeries = __webpack_require__(235);
 
 	var Main = function Main(props) {
 	    return React.createElement(
@@ -26583,24 +26578,27 @@
 	        'div',
 	        { className: 'flexbox navigation' },
 	        React.createElement(
-	            Link,
-	            { className: 'vis', to: '/twist/serie-temporal' },
-	            'Not\xEDcias sobre candidatos'
+	            'div',
+	            { className: 'flexbox logo' },
+	            React.createElement(
+	                'h1',
+	                null,
+	                'Elei\xE7\xF5es 2016'
+	            )
 	        ),
 	        React.createElement(
-	            Link,
-	            { className: 'vis', to: '/twist/palavras-frequentes' },
-	            'Palavras Frequentes'
-	        ),
-	        React.createElement(
-	            Link,
-	            { className: 'vis', to: '/twist/fontes-donut' },
-	            'Not\xEDcias por Fonte'
-	        ),
-	        React.createElement(
-	            Link,
-	            { className: 'vis', to: '/twist/fontes-time-lapse' },
-	            'Time lapse not\xEDcias'
+	            'div',
+	            { className: 'flexbox links' },
+	            React.createElement(
+	                Link,
+	                { activeClassName: 'active', className: 'vis', to: '/twist/analises-temporais' },
+	                'An\xE1lises Temporais'
+	            ),
+	            React.createElement(
+	                Link,
+	                { activeClassName: 'active', className: 'vis', to: '/twist/analises-frequencia' },
+	                'An\xE1lises de Frequ\xEAncia'
+	            )
 	        )
 	    );
 	};
@@ -26615,8 +26613,6 @@
 
 	var React = __webpack_require__(1);
 
-	var VisTitle = __webpack_require__(236);
-
 	var drawNewsTimeSeries = __webpack_require__(237);
 
 	var NewsTimeSeries = React.createClass({
@@ -26629,22 +26625,30 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'flexbox vis-holder' },
-	      React.createElement(VisTitle, { title: 'Not\xEDcias sobre os candidatos' }),
-	      React.createElement('svg', { id: 'news-time-series', height: visConfig.height, width: visConfig.width }),
 	      React.createElement(
 	        'div',
-	        { className: 'vis-options' },
+	        { className: 'flexbox vis-title' },
 	        React.createElement(
-	          'p',
-	          { value: 'crivella', className: 'checkbutton active crivella' },
-	          'Crivella'
+	          'h2',
+	          null,
+	          'Not\xEDcias sobre os candidatos'
 	        ),
 	        React.createElement(
-	          'p',
-	          { value: 'freixo', className: 'checkbutton active freixo' },
-	          'Freixo'
+	          'div',
+	          { className: 'vis-options' },
+	          React.createElement(
+	            'p',
+	            { value: 'crivella', className: 'checkbutton active crivella' },
+	            'Crivella'
+	          ),
+	          React.createElement(
+	            'p',
+	            { value: 'freixo', className: 'checkbutton active freixo' },
+	            'Freixo'
+	          )
 	        )
-	      )
+	      ),
+	      React.createElement('svg', { id: 'news-time-series', height: visConfig.height, width: visConfig.width })
 	    );
 	  }
 	});
@@ -26652,31 +26656,7 @@
 	module.exports = NewsTimeSeries;
 
 /***/ },
-/* 236 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-
-	var _require = __webpack_require__(178),
-	    Link = _require.Link;
-
-	var VisTitle = function VisTitle(props) {
-	    return React.createElement(
-	        'div',
-	        { className: 'flexbox vis-title' },
-	        React.createElement(
-	            'h2',
-	            null,
-	            props.title
-	        )
-	    );
-	};
-
-	module.exports = VisTitle;
-
-/***/ },
+/* 236 */,
 /* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -51287,14 +51267,21 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var Router = __webpack_require__(178);
 
 	var _require = __webpack_require__(178),
 	    Link = _require.Link;
 
-	var Home = function Home(props) {
-	    return React.createElement('div', { className: 'flexbox vis-animation' });
-	};
+	var Home = React.createClass({
+	    displayName: 'Home',
 
+	    componentDidMount: function componentDidMount() {
+	        Router.browserHistory.push('/twist/analises-temporais');
+	    },
+	    render: function render() {
+	        return React.createElement('div', { className: 'flexbox' });
+	    }
+	});
 	module.exports = Home;
 
 /***/ },
@@ -51305,7 +51292,6 @@
 
 	var React = __webpack_require__(1);
 
-	var VisTitle = __webpack_require__(236);
 	var drawWordCloud = __webpack_require__(353);
 
 	var WordCloud = React.createClass({
@@ -51318,32 +51304,40 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'flexbox vis-holder' },
-	      React.createElement(VisTitle, { title: 'Palavras mais utilizadas em t\xEDtulos de not\xEDcias' }),
-	      React.createElement('svg', { id: 'word-cloud', height: visConfig.height, width: visConfig.width }),
 	      React.createElement(
 	        'div',
-	        { className: 'vis-options' },
+	        { className: 'flexbox vis-title' },
 	        React.createElement(
-	          'p',
-	          { value: 'all', className: 'button active' },
-	          'Todas'
+	          'h2',
+	          null,
+	          'Palavras frequentes em t\xEDtulos de not\xEDcias'
 	        ),
 	        React.createElement(
-	          'p',
-	          { value: 'crivella', className: 'button' },
-	          'Not\xEDcias sobre o Crivella'
-	        ),
-	        React.createElement(
-	          'p',
-	          { value: 'freixo', className: 'button' },
-	          'Not\xEDcias sobre o Freixo'
-	        ),
-	        React.createElement(
-	          'p',
-	          { value: 'draw', className: 'button' },
-	          'Empate entre os dois'
+	          'div',
+	          { className: 'vis-options' },
+	          React.createElement(
+	            'p',
+	            { value: 'all', className: 'button active' },
+	            'Todas'
+	          ),
+	          React.createElement(
+	            'p',
+	            { value: 'crivella', className: 'button' },
+	            'Sobre o Crivella'
+	          ),
+	          React.createElement(
+	            'p',
+	            { value: 'freixo', className: 'button' },
+	            'Sobre o Freixo'
+	          ),
+	          React.createElement(
+	            'p',
+	            { value: 'draw', className: 'button' },
+	            'Empate entre os dois'
+	          )
 	        )
-	      )
+	      ),
+	      React.createElement('svg', { id: 'word-cloud', height: visConfig.height, width: visConfig.width })
 	    );
 	  }
 	});
@@ -51999,8 +51993,6 @@
 
 	var React = __webpack_require__(1);
 
-	var VisTitle = __webpack_require__(236);
-
 	var drawNewsSourceDonut = __webpack_require__(357);
 
 	var NewsSourceDonut = React.createClass({
@@ -52013,17 +52005,25 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'flexbox vis-holder' },
-	      React.createElement(VisTitle, { title: 'Not\xEDcias por fonte' }),
-	      React.createElement('svg', { id: 'news-donut', height: visConfig.height, width: visConfig.width }),
 	      React.createElement(
-	        'select',
-	        { id: 'news-source-selection' },
+	        'div',
+	        { className: 'flexbox vis-title' },
 	        React.createElement(
-	          'option',
-	          { value: 'all', defaultValue: true },
-	          'Todos'
+	          'h2',
+	          null,
+	          'Not\xEDcias por fonte'
+	        ),
+	        React.createElement(
+	          'select',
+	          { id: 'news-source-selection' },
+	          React.createElement(
+	            'option',
+	            { value: 'all', defaultValue: true },
+	            'todas'
+	          )
 	        )
-	      )
+	      ),
+	      React.createElement('svg', { id: 'news-donut', height: visConfig.nsdcVisHeight, width: visConfig.nsdcVisWidth })
 	    );
 	  }
 	});
@@ -52078,9 +52078,9 @@
 
 	  function showVis() {
 
-	    var svg = d3.select('svg#news-donut').append("g").attr('class', 'vis').attr('transform', 'translate(' + visConfig.width / 2 + ',' + visConfig.height / 2 + ')');
+	    var svg = d3.select('svg#news-donut').append("g").attr('class', 'vis').attr('transform', 'translate(' + visConfig.nsdcVisWidth / 2 + ',' + visConfig.nsdcVisHeight / 2 + ')');
 
-	    var arc = d3.svg.arc().outerRadius(visConfig.nspcChartRadius).innerRadius(visConfig.nspcChartRadius / 1.6);
+	    var arc = d3.svg.arc().outerRadius(visConfig.nsdcChartRadius).innerRadius(visConfig.nsdcChartRadius / 1.6);
 
 	    var pie = d3.layout.pie().value(function (d) {
 	      return d.count;
@@ -52094,36 +52094,52 @@
 
 	    var allNewsSourcesCandidatesData = returnCadidatesData(allNewsSources);
 
+	    var highlight = d3.select('body').append('div').style('position', 'absolute').style('z-index', 30).style('visibility', 'hidden').style('color', 'white').style('padding', '10px').style('background-color', 'rgba(0,0,0,0.8)').style('border-radius', '5px').style('font', '12px monospace').text('test');
+
 	    var arcGroup = svg.selectAll('.arc').data(pie(allNewsSourcesCandidatesData)).enter().append('g').attr('class', 'arc').append('path').attr('d', arc).style('fill', function (d) {
 	      return d.data.candidato === 'Freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor;
-	    }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).attr('opacity', 1);
+	    }).attr('opacity', 0).on('mouseover', function (d) {
+	      highlight.text(d.data.candidato + ': ' + d.data.count);
+	      highlight.style('visibility', 'visible');
+	    }).on('mousemove', function () {
+	      highlight.style('top', d3.event.pageY - 10 + 'px').style('left', d3.event.pageX + 10 + 'px');
+	    }).on('mouseout', function () {
+	      highlight.style('visibility', 'hidden');
+	    }).transition().duration(visConfig.nsdcChartTransition).attr('opacity', 1);
 
 	    var centerTextTop = svg.append('text').attr('class', 'total-news').attr('text-anchor', 'middle').attr('font-size', 18).attr('font-family', 'monospace').attr('transform', 'translate(0, -10)').text(function () {
 	      return allNewsSources.length + (allNewsSources.length > 1 ? ' notícias' : ' notícia');
-	    }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).delay(visConfig.nspcChartDelay).attr('opacity', 1);
+	    }).attr('opacity', 0).transition().duration(visConfig.nsdcChartTransition).delay(visConfig.nsdcChartDelay).attr('opacity', 1);
 
 	    var centerTextBottom = svg.append('text').attr('class', 'total-sources').attr('text-anchor', 'middle').attr('font-size', 18).attr('font-family', 'monospace').attr('transform', 'translate(0, 10)').text(function () {
 	      return newsSources.length + (newsSources.length > 1 ? ' fontes' : ' fonte');
-	    }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).delay(visConfig.nspcChartDelay).attr('opacity', 1);
+	    }).attr('opacity', 0).transition().duration(visConfig.nsdcChartTransition).delay(visConfig.nsdcChartDelay).attr('opacity', 1);
 
 	    function updateGraph(filter) {
 	      var currentArcs = d3.selectAll('.arc').remove();
 
 	      var arcGroup = svg.selectAll('.arc').data(pie(filter !== 'all' ? returnCadidatesData(visConfig.newsSources[filter]) : allNewsSourcesCandidatesData)).enter().append('g').attr('class', 'arc').append('path').attr('d', arc).style('fill', function (d) {
 	        return d.data.candidato === 'Freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor;
-	      }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).attr('opacity', 1);
+	      }).attr('opacity', 0).on('mouseover', function (d) {
+	        highlight.text(d.data.candidato + ': ' + d.data.count);
+	        highlight.style('visibility', 'visible');
+	      }).on('mousemove', function () {
+	        highlight.style('top', d3.event.pageY - 10 + 'px').style('left', d3.event.pageX + 10 + 'px');
+	      }).on('mouseout', function () {
+	        highlight.style('visibility', 'hidden');
+	      }).transition().duration(visConfig.nsdcChartTransition).attr('opacity', 1);
 
 	      d3.select('text.total-news').text(function () {
 	        if (filter === 'all') return allNewsSources.length + (allNewsSources.length > 1 ? ' notícias' : ' notícia');
 
 	        return visConfig.newsSources[filter].length + (visConfig.newsSources[filter].length > 1 ? ' notícias' : ' notícia');
-	      }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).delay(visConfig.nspcChartDelay).attr('opacity', 1);
+	      }).attr('opacity', 0).transition().duration(visConfig.nsdcChartTransition).delay(visConfig.nsdcChartDelay).attr('opacity', 1);
 
 	      d3.select('text.total-sources').text(function () {
 	        if (filter === 'all') return newsSources.length + (newsSources.length > 1 ? ' fontes' : ' fonte');
 
 	        return filter;
-	      }).attr('opacity', 0).transition().duration(visConfig.nspcChartTransition).delay(visConfig.nspcChartDelay).attr('opacity', 1);
+	      }).attr('opacity', 0).transition().duration(visConfig.nsdcChartTransition).delay(visConfig.nsdcChartDelay).attr('opacity', 1);
 	    }
 
 	    // Add options to selector
@@ -52149,8 +52165,6 @@
 
 	var React = __webpack_require__(1);
 
-	var VisTitle = __webpack_require__(236);
-
 	var drawNewsSourceTimeLapse = __webpack_require__(359);
 
 	var NewsSourceTimeLapse = React.createClass({
@@ -52163,32 +52177,40 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'flexbox vis-holder' },
-	      React.createElement(VisTitle, { title: 'Time lapse not\xEDcias' }),
-	      React.createElement('svg', { id: 'news-time-lapse', height: visConfig.height, width: visConfig.width }),
 	      React.createElement(
 	        'div',
-	        { className: 'flexbox controls' },
+	        { className: 'flexbox vis-title' },
 	        React.createElement(
-	          'button',
-	          { className: 'play' },
-	          'Play'
+	          'h2',
+	          null,
+	          'Time lapse das not\xEDcias'
 	        ),
 	        React.createElement(
-	          'button',
-	          { className: 'pause' },
-	          'Pause'
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'back' },
-	          'Voltar'
-	        ),
-	        React.createElement(
-	          'button',
-	          { className: 'forward' },
-	          'Avan\xE7ar'
+	          'div',
+	          { className: 'flexbox controls' },
+	          React.createElement(
+	            'button',
+	            { className: 'play' },
+	            'Play'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'pause' },
+	            'Pause'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'back' },
+	            'Voltar'
+	          ),
+	          React.createElement(
+	            'button',
+	            { className: 'forward' },
+	            'Avan\xE7ar'
+	          )
 	        )
-	      )
+	      ),
+	      React.createElement('svg', { id: 'news-time-lapse', height: visConfig.height, width: visConfig.width })
 	    );
 	  }
 	});
@@ -52292,7 +52314,7 @@
 	      return xScale(formatDate.parse(sortedNews[index].data));
 	    }
 
-	    var highlightedNews = d3.select('g.x-axis').append('circle').attr('class', 'current-news').attr('cx', 20).attr('cy', visConfig.nstlCurrentNewsCy).attr('r', visConfig.nstlCurrentNewsRadius).attr('fill', '#000').attr('opacity', 0);
+	    var highlightedNews = svg.select('g.x-axis').append('circle').attr('class', 'current-news').attr('cx', 20).attr('cy', visConfig.nstlCurrentNewsCy).attr('r', visConfig.nstlCurrentNewsRadius).attr('fill', '#000').attr('opacity', 0);
 
 	    function animateNews() {
 	      clearNewsAnimation();
@@ -52398,7 +52420,7 @@
 
 
 	// module
-	exports.push([module.id, "/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\nbutton, hr, input {\n  overflow: visible; }\n\naudio, canvas, progress, video {\n  display: inline-block; }\n\nprogress, sub, sup {\n  vertical-align: baseline; }\n\nhtml {\n  font-family: sans-serif;\n  line-height: 1.15;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nbody {\n  margin: 0; }\n\nmenu, article, aside, details, footer, header, nav, section {\n  display: block; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nfigcaption, figure, main {\n  display: block; }\n\nfigure {\n  margin: 1em 40px; }\n\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,monospace;\n  font-size: 1em; }\n\na {\n  background-color: transparent;\n  -webkit-text-decoration-skip: objects; }\n\na:active, a:hover {\n  outline-width: 0; }\n\nabbr[title] {\n  border-bottom: none;\n  text-decoration: underline;\n  text-decoration: underline dotted; }\n\nb, strong {\n  font-weight: bolder; }\n\ndfn {\n  font-style: italic; }\n\nmark {\n  background-color: #ff0;\n  color: #000; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative; }\n\nsub {\n  bottom: -.25em; }\n\nsup {\n  top: -.5em; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\nimg {\n  border-style: none; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nbutton, input, optgroup, select, textarea {\n  font-family: sans-serif;\n  font-size: 100%;\n  line-height: 1.15;\n  margin: 0; }\n\nbutton, select {\n  text-transform: none; }\n\n[type=submit], [type=reset], button, html [type=button] {\n  -webkit-appearance: button; }\n\n[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {\n  outline: ButtonText dotted 1px; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  box-sizing: border-box;\n  color: inherit;\n  display: table;\n  max-width: 100%;\n  padding: 0;\n  white-space: normal; }\n\ntextarea {\n  overflow: auto; }\n\n[type=checkbox], [type=radio] {\n  box-sizing: border-box;\n  padding: 0; }\n\n[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {\n  height: auto; }\n\n[type=search] {\n  -webkit-appearance: textfield;\n  outline-offset: -2px; }\n\n[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit; }\n\nsummary {\n  display: list-item; }\n\n[hidden], template {\n  display: none; }\n\ndiv.flexbox {\n  display: flex; }\n  div.flexbox.vis-holder {\n    flex-direction: column;\n    align-items: center;\n    box-shadow: 2px 2px 3px #333;\n    margin: 15px; }\n    div.flexbox.vis-holder svg {\n      margin: 20px 10px;\n      position: relative; }\n\ndiv.navigation {\n  width: 20%;\n  background: #bbb;\n  border-radius: 20px;\n  flex-direction: column;\n  padding: 20px 0; }\n  div.navigation a {\n    text-align: center;\n    padding: 10px 20px;\n    font-size: 18px;\n    cursor: pointer;\n    color: white;\n    font-weight: bold;\n    text-decoration: none; }\n    div.navigation a:hover, div.navigation a.active {\n      background: #959595; }\n\ndiv.vis-title {\n  justify-content: center;\n  padding: 10px 0;\n  background: #f7f7f7;\n  z-index: 10;\n  width: 100%; }\n  div.vis-title h2 {\n    font-size: 25px;\n    margin: 0;\n    color: #444; }\n\ndiv.main-component {\n  flex-direction: column;\n  align-items: center; }\n\ntext.word {\n  text-transform: uppercase;\n  font-family: monospace; }\n\nh2 {\n  color: #333;\n  font-size: 22px; }\n\ndiv.vis-options {\n  display: flex;\n  justify-content: center; }\n  div.vis-options p.button {\n    display: inline-block;\n    padding: 10px 20px;\n    font-size: 18px;\n    cursor: pointer;\n    background: #09A8A3;\n    border-radius: 5px;\n    margin-right: 10px;\n    color: white;\n    font-weight: bold; }\n    div.vis-options p.button:hover, div.vis-options p.button.active {\n      background: #055f5d; }\n\ndiv.vis-options p.checkbutton {\n  display: inline-block;\n  padding: 10px 20px;\n  font-size: 18px;\n  cursor: pointer;\n  border-radius: 5px;\n  margin-right: 10px;\n  font-weight: bold; }\n  div.vis-options p.checkbutton.freixo {\n    border: 3px solid #FFD00D;\n    color: #444; }\n    div.vis-options p.checkbutton.freixo.active {\n      background: #FFD00D; }\n    div.vis-options p.checkbutton.freixo:hover {\n      background: #c09a00; }\n  div.vis-options p.checkbutton.crivella {\n    border: 3px solid #08547A;\n    color: #444; }\n    div.vis-options p.checkbutton.crivella.active {\n      background: #08547A;\n      color: #fff; }\n    div.vis-options p.checkbutton.crivella:hover {\n      background: #032332; }\n", ""]);
+	exports.push([module.id, "/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\nbutton, hr, input {\n  overflow: visible; }\n\naudio, canvas, progress, video {\n  display: inline-block; }\n\nprogress, sub, sup {\n  vertical-align: baseline; }\n\nhtml {\n  font-family: sans-serif;\n  line-height: 1.15;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nbody {\n  margin: 0; }\n\nmenu, article, aside, details, footer, header, nav, section {\n  display: block; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nfigcaption, figure, main {\n  display: block; }\n\nfigure {\n  margin: 1em 40px; }\n\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,monospace;\n  font-size: 1em; }\n\na {\n  background-color: transparent;\n  -webkit-text-decoration-skip: objects; }\n\na:active, a:hover {\n  outline-width: 0; }\n\nabbr[title] {\n  border-bottom: none;\n  text-decoration: underline;\n  text-decoration: underline dotted; }\n\nb, strong {\n  font-weight: bolder; }\n\ndfn {\n  font-style: italic; }\n\nmark {\n  background-color: #ff0;\n  color: #000; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative; }\n\nsub {\n  bottom: -.25em; }\n\nsup {\n  top: -.5em; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\nimg {\n  border-style: none; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nbutton, input, optgroup, select, textarea {\n  font-family: sans-serif;\n  font-size: 100%;\n  line-height: 1.15;\n  margin: 0; }\n\nbutton, select {\n  text-transform: none; }\n\n[type=submit], [type=reset], button, html [type=button] {\n  -webkit-appearance: button; }\n\n[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {\n  outline: ButtonText dotted 1px; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  box-sizing: border-box;\n  color: inherit;\n  display: table;\n  max-width: 100%;\n  padding: 0;\n  white-space: normal; }\n\ntextarea {\n  overflow: auto; }\n\n[type=checkbox], [type=radio] {\n  box-sizing: border-box;\n  padding: 0; }\n\n[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {\n  height: auto; }\n\n[type=search] {\n  -webkit-appearance: textfield;\n  outline-offset: -2px; }\n\n[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit; }\n\nsummary {\n  display: list-item; }\n\n[hidden], template {\n  display: none; }\n\ndiv.flexbox {\n  display: flex; }\n  div.flexbox.vis-holder {\n    flex-direction: column;\n    align-items: center;\n    box-shadow: 2px 2px 3px #333;\n    margin-top: 20px;\n    align-self: flex-start; }\n    div.flexbox.vis-holder svg {\n      margin: 5px;\n      position: relative; }\n  div.flexbox.visualizations-wrapper {\n    width: 1350px;\n    flex-wrap: wrap;\n    justify-content: space-around; }\n\ndiv.navigation {\n  width: 100%;\n  background: #f2f2f2;\n  justify-content: space-between;\n  color: #444; }\n  div.navigation div {\n    margin: 0 80px; }\n    div.navigation div h1 {\n      font-size: 24px; }\n    div.navigation div.links {\n      align-items: center; }\n      div.navigation div.links a {\n        text-align: center;\n        color: #444;\n        padding: 0 20px;\n        font-size: 14px;\n        cursor: pointer;\n        font-weight: bold;\n        text-decoration: none;\n        display: flex;\n        flex: 1 0 auto;\n        height: 100%;\n        align-items: center; }\n        div.navigation div.links a:hover, div.navigation div.links a.active {\n          background: #d1d1d1; }\n\ndiv.vis-title {\n  justify-content: space-between;\n  padding: 10px 0;\n  background: #f7f7f7;\n  z-index: 10;\n  width: 100%; }\n  div.vis-title h2 {\n    font-size: 16px;\n    color: #444;\n    align-self: center; }\n  div.vis-title h2, div.vis-title div, div.vis-title select {\n    margin: 0 10px; }\n  div.vis-title button {\n    margin: 0 5px; }\n\ndiv.main-component {\n  flex-direction: column;\n  align-items: center; }\n\ntext.word {\n  text-transform: uppercase;\n  font-family: monospace; }\n\nh2 {\n  color: #333;\n  font-size: 22px; }\n\ndiv.vis-options {\n  display: flex;\n  justify-content: center; }\n  div.vis-options p.button {\n    display: inline-block;\n    margin: 0;\n    padding: 5px 10px;\n    font-size: 14px;\n    cursor: pointer;\n    background: #aaa;\n    border-radius: 5px;\n    margin-left: 10px;\n    color: white;\n    font-weight: bold; }\n    div.vis-options p.button:hover, div.vis-options p.button.active {\n      background: #848484; }\n\ndiv.vis-options p.checkbutton {\n  display: inline-block;\n  margin: 0;\n  padding: 5px 10px;\n  font-size: 14px;\n  cursor: pointer;\n  border-radius: 5px;\n  font-weight: bold;\n  margin-left: 10px; }\n  div.vis-options p.checkbutton.freixo {\n    border: 3px solid #FFD00D;\n    color: #444; }\n    div.vis-options p.checkbutton.freixo.active {\n      background: #FFD00D; }\n    div.vis-options p.checkbutton.freixo:hover {\n      background: #c09a00; }\n  div.vis-options p.checkbutton.crivella {\n    border: 3px solid #08547A;\n    color: #444; }\n    div.vis-options p.checkbutton.crivella.active {\n      background: #08547A;\n      color: #fff; }\n    div.vis-options p.checkbutton.crivella:hover {\n      background: #032332; }\n", ""]);
 
 	// exports
 
@@ -52710,6 +52732,50 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 364 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var NewsTimeSeries = __webpack_require__(235);
+	var NewsSourceTimeLapse = __webpack_require__(358);
+
+	var TemporalAnalysis = function TemporalAnalysis(props) {
+	    return React.createElement(
+	        'div',
+	        { className: 'flexbox visualizations-wrapper' },
+	        React.createElement(NewsTimeSeries, null),
+	        React.createElement(NewsSourceTimeLapse, null)
+	    );
+	};
+
+	module.exports = TemporalAnalysis;
+
+/***/ },
+/* 365 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var WordCloud = __webpack_require__(352);
+	var NewsSourceDonut = __webpack_require__(356);
+
+	var FrequencyAnalysis = function FrequencyAnalysis(props) {
+	    return React.createElement(
+	        'div',
+	        { className: 'flexbox visualizations-wrapper' },
+	        React.createElement(WordCloud, null),
+	        React.createElement(NewsSourceDonut, null)
+	    );
+	};
+
+	module.exports = FrequencyAnalysis;
 
 /***/ }
 /******/ ]);

@@ -1,13 +1,22 @@
 div.vis-title {
-  justify-content: center;
+  justify-content: space-between;
   padding: 10px 0;
   background: #f7f7f7;
   z-index: 10;
   width: 100%;
 
   h2 {
-    font-size: 25px;
-    margin: 0;
+    font-size: 16px;
     color: #444;
+    align-self: center;
   }
+
+  h2, div, select {
+    margin: 0 10px;
+  }
+
+  button {
+    margin: 0 5px;
+  }
+
 }

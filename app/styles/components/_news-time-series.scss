@@ -1,12 +1,13 @@
 div.vis-options {
   p.checkbutton {
     display: inline-block;
-    padding: 10px 20px;
-    font-size: 18px;
+    margin: 0;
+    padding: 5px 10px;
+    font-size: 14px;
     cursor: pointer;
     border-radius: 5px;
-    margin-right: 10px;
     font-weight: bold;
+    margin-left: 10px;
 
     &.freixo {
       border: 3px solid $twist-freixo;

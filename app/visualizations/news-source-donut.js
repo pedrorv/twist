@@ -42,11 +42,11 @@ function drawNewsSourceDonut () {
     let svg = d3.select('svg#news-donut')
                   .append("g")
                   .attr('class', 'vis')
-                  .attr('transform', 'translate('+visConfig.width/2+','+visConfig.height/2+')')
+                  .attr('transform', 'translate('+visConfig.nsdcVisWidth/2+','+visConfig.nsdcVisHeight/2+')')
     
     let arc = d3.svg.arc()
-                    .outerRadius(visConfig.nspcChartRadius)
-                    .innerRadius(visConfig.nspcChartRadius/1.6)
+                    .outerRadius(visConfig.nsdcChartRadius)
+                    .innerRadius(visConfig.nsdcChartRadius/1.6)
 
     let pie = d3.layout.pie()
                        .value(d => d.count)
@@ -59,6 +59,17 @@ function drawNewsSourceDonut () {
     
     let allNewsSourcesCandidatesData = returnCadidatesData(allNewsSources)
 
+    let highlight = d3.select('body')
+                      .append('div')
+                      .style('position', 'absolute')
+                      .style('z-index', 30)
+                      .style('visibility', 'hidden')
+                      .style('color', 'white')
+                      .style('padding', '10px')
+                      .style('background-color', 'rgba(0,0,0,0.8)')
+                      .style('border-radius', '5px')
+                      .style('font', '12px monospace')
+                      .text('test')
 
     let arcGroup = svg.selectAll('.arc')
                       .data(pie(allNewsSourcesCandidatesData))
@@ -69,8 +80,18 @@ function drawNewsSourceDonut () {
                       .attr('d', arc)
                       .style('fill', (d) => (d.data.candidato === 'Freixo') ? visConfig.FreixoColor : visConfig.CrivellaColor)
                       .attr('opacity', 0)
+                      .on('mouseover', (d) => {
+                        highlight.text(d.data.candidato + ': ' + d.data.count)
+                        highlight.style('visibility', 'visible')
+                      })
+                      .on('mousemove', () => {
+                        highlight.style('top', (d3.event.pageY - 10) + 'px').style('left', (d3.event.pageX + 10) + 'px')
+                      })
+                      .on('mouseout', () => {
+                        highlight.style('visibility', 'hidden')
+                      })
                       .transition()
-                      .duration(visConfig.nspcChartTransition)
+                      .duration(visConfig.nsdcChartTransition)
                       .attr('opacity', 1)
                       
       
@@ -85,8 +106,8 @@ function drawNewsSourceDonut () {
                            })
                            .attr('opacity', 0)
                            .transition()
-                           .duration(visConfig.nspcChartTransition)
-                           .delay(visConfig.nspcChartDelay)
+                           .duration(visConfig.nsdcChartTransition)
+                           .delay(visConfig.nsdcChartDelay)
                            .attr('opacity', 1)
 
     let centerTextBottom = svg.append('text')
@@ -100,9 +121,10 @@ function drawNewsSourceDonut () {
                               })
                               .attr('opacity', 0)
                               .transition()
-                              .duration(visConfig.nspcChartTransition)
-                              .delay(visConfig.nspcChartDelay)
+                              .duration(visConfig.nsdcChartTransition)
+                              .delay(visConfig.nsdcChartDelay)
                               .attr('opacity', 1)
+
 
     function updateGraph(filter) {
       let currentArcs = d3.selectAll('.arc').remove()
@@ -116,8 +138,18 @@ function drawNewsSourceDonut () {
                       .attr('d', arc)
                       .style('fill', (d) => (d.data.candidato === 'Freixo') ? visConfig.FreixoColor : visConfig.CrivellaColor)
                       .attr('opacity', 0)
+                      .on('mouseover', (d) => {
+                        highlight.text(d.data.candidato + ': ' + d.data.count)
+                        highlight.style('visibility', 'visible')
+                      })
+                      .on('mousemove', () => {
+                        highlight.style('top', (d3.event.pageY - 10) + 'px').style('left', (d3.event.pageX + 10) + 'px')
+                      })
+                      .on('mouseout', () => {
+                        highlight.style('visibility', 'hidden')
+                      })
                       .transition()
-                      .duration(visConfig.nspcChartTransition)
+                      .duration(visConfig.nsdcChartTransition)
                       .attr('opacity', 1)
 
       d3.select('text.total-news').text(() => {
@@ -127,8 +159,8 @@ function drawNewsSourceDonut () {
       })
       .attr('opacity', 0)
       .transition()
-      .duration(visConfig.nspcChartTransition)
-      .delay(visConfig.nspcChartDelay)
+      .duration(visConfig.nsdcChartTransition)
+      .delay(visConfig.nsdcChartDelay)
       .attr('opacity', 1)
 
       d3.select('text.total-sources').text(() => {
@@ -138,8 +170,8 @@ function drawNewsSourceDonut () {
       })
       .attr('opacity', 0)
       .transition()
-      .duration(visConfig.nspcChartTransition)
-      .delay(visConfig.nspcChartDelay)
+      .duration(visConfig.nsdcChartTransition)
+      .delay(visConfig.nsdcChartDelay)
       .attr('opacity', 1)
     }
 

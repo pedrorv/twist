@@ -1,7 +1,5 @@
 const React = require('react')
 
-const VisTitle = require('VisTitle')
-
 const drawNewsSourceDonut = require('../visualizations/news-source-donut')
 
 const NewsSourceDonut = React.createClass({
@@ -11,11 +9,14 @@ const NewsSourceDonut = React.createClass({
   render: function() {
     return (
       <div className="flexbox vis-holder">
-          <VisTitle title="Notícias por fonte" />
-          <svg id="news-donut" height={visConfig.height} width={visConfig.width}></svg>
-          <select id="news-source-selection">
-            <option value="all" defaultValue>Todos</option>
-          </select>
+          <div className="flexbox vis-title">
+              <h2>Notícias por fonte</h2>
+              <select id="news-source-selection">
+                <option value="all" defaultValue>todas</option>
+              </select>
+          </div>
+
+          <svg id="news-donut" height={visConfig.nsdcVisHeight} width={visConfig.nsdcVisWidth}></svg>
       </div>
     )
   }
