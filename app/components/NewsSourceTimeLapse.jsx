@@ -11,11 +11,11 @@ const NewsSourceTimeLapse = React.createClass({
       <div className="flexbox vis-holder">
           <div className="flexbox vis-title">
               <h2>Time lapse das notícias</h2>
-              <div className="flexbox controls">
-                <button className="play">Play</button>
-                <button className="pause">Pause</button>
-                <button className="back">Voltar</button>
-                <button className="forward">Avançar</button>
+              <div className="flexbox vis-controls">
+                <p className="button play">Play</p>
+                <p className="button pause">Pause</p>
+                <p className="button back">Voltar</p>
+                <p className="button forward">Avançar</p>
               </div>
           </div>
           

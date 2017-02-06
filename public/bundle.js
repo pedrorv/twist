@@ -51388,25 +51388,25 @@
 	        ),
 	        React.createElement(
 	          'div',
-	          { className: 'flexbox controls' },
+	          { className: 'flexbox vis-controls' },
 	          React.createElement(
-	            'button',
-	            { className: 'play' },
+	            'p',
+	            { className: 'button play' },
 	            'Play'
 	          ),
 	          React.createElement(
-	            'button',
-	            { className: 'pause' },
+	            'p',
+	            { className: 'button pause' },
 	            'Pause'
 	          ),
 	          React.createElement(
-	            'button',
-	            { className: 'back' },
+	            'p',
+	            { className: 'button back' },
 	            'Voltar'
 	          ),
 	          React.createElement(
-	            'button',
-	            { className: 'forward' },
+	            'p',
+	            { className: 'button forward' },
 	            'Avan\xE7ar'
 	          )
 	        )
@@ -51560,19 +51560,33 @@
 	      d3.select('circle.' + data.fonte).transition().duration(200).delay(200).attr('fill', data.candidato === 'Freixo' ? visConfig.FreixoColor : visConfig.CrivellaColor);
 	    }
 
-	    animateNews();
-
 	    function clearNewsAnimation() {
 	      clearInterval(visConfig.timelapseInterval);
 	    }
 
-	    d3.select('button.play').on('click', animateNews);
-	    d3.select('button.pause').on('click', clearNewsAnimation);
-	    d3.select('button.back').on('click', function () {
+	    d3.select('p.play').on('click', function () {
+	      d3.select('div.vis-controls').selectAll('p.button').classed('active', false);
+	      d3.select(this).classed('active', true);
+
+	      animateNews();
+	    });
+	    d3.select('p.pause').on('click', function () {
+	      d3.select('div.vis-controls').selectAll('p.button').classed('active', false);
+	      d3.select(this).classed('active', true);
+
+	      clearNewsAnimation();
+	    });
+	    d3.select('p.back').on('click', function () {
+	      d3.select('div.vis-controls').selectAll('p.button').classed('active', false);
+	      d3.select('p.pause').classed('active', true);
+
 	      clearNewsAnimation();
 	      manageAnimationState(-1);
 	    });
-	    d3.select('button.forward').on('click', function () {
+	    d3.select('p.forward').on('click', function () {
+	      d3.select('div.vis-controls').selectAll('p.button').classed('active', false);
+	      d3.select('p.pause').classed('active', true);
+
 	      clearNewsAnimation();
 	      manageAnimationState(1);
 	    });
@@ -52517,7 +52531,7 @@
 
 
 	// module
-	exports.push([module.id, "/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\nbutton, hr, input {\n  overflow: visible; }\n\naudio, canvas, progress, video {\n  display: inline-block; }\n\nprogress, sub, sup {\n  vertical-align: baseline; }\n\nhtml {\n  font-family: sans-serif;\n  line-height: 1.15;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nbody {\n  margin: 0; }\n\nmenu, article, aside, details, footer, header, nav, section {\n  display: block; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nfigcaption, figure, main {\n  display: block; }\n\nfigure {\n  margin: 1em 40px; }\n\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,monospace;\n  font-size: 1em; }\n\na {\n  background-color: transparent;\n  -webkit-text-decoration-skip: objects; }\n\na:active, a:hover {\n  outline-width: 0; }\n\nabbr[title] {\n  border-bottom: none;\n  text-decoration: underline;\n  text-decoration: underline dotted; }\n\nb, strong {\n  font-weight: bolder; }\n\ndfn {\n  font-style: italic; }\n\nmark {\n  background-color: #ff0;\n  color: #000; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative; }\n\nsub {\n  bottom: -.25em; }\n\nsup {\n  top: -.5em; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\nimg {\n  border-style: none; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nbutton, input, optgroup, select, textarea {\n  font-family: sans-serif;\n  font-size: 100%;\n  line-height: 1.15;\n  margin: 0; }\n\nbutton, select {\n  text-transform: none; }\n\n[type=submit], [type=reset], button, html [type=button] {\n  -webkit-appearance: button; }\n\n[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {\n  outline: ButtonText dotted 1px; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  box-sizing: border-box;\n  color: inherit;\n  display: table;\n  max-width: 100%;\n  padding: 0;\n  white-space: normal; }\n\ntextarea {\n  overflow: auto; }\n\n[type=checkbox], [type=radio] {\n  box-sizing: border-box;\n  padding: 0; }\n\n[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {\n  height: auto; }\n\n[type=search] {\n  -webkit-appearance: textfield;\n  outline-offset: -2px; }\n\n[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit; }\n\nsummary {\n  display: list-item; }\n\n[hidden], template {\n  display: none; }\n\ndiv.flexbox {\n  display: flex; }\n  div.flexbox.vis-holder {\n    flex-direction: column;\n    align-items: center;\n    box-shadow: 2px 2px 3px #333;\n    margin: 20px 0;\n    align-self: flex-start; }\n    div.flexbox.vis-holder svg {\n      margin: 5px;\n      position: relative; }\n  div.flexbox.visualizations-wrapper {\n    width: 1350px;\n    flex-wrap: wrap;\n    justify-content: space-around; }\n\ndiv.navigation {\n  width: 100%;\n  background: #f2f2f2;\n  justify-content: space-between;\n  color: #444; }\n  div.navigation div {\n    margin: 0 80px; }\n    div.navigation div h1 {\n      font-size: 24px; }\n    div.navigation div.links {\n      align-items: center; }\n      div.navigation div.links a {\n        text-align: center;\n        color: #444;\n        padding: 0 20px;\n        font-size: 14px;\n        cursor: pointer;\n        font-weight: bold;\n        text-decoration: none;\n        display: flex;\n        flex: 1 0 auto;\n        height: 100%;\n        align-items: center; }\n        div.navigation div.links a:hover, div.navigation div.links a.active {\n          background: #d1d1d1; }\n\ndiv.vis-title {\n  justify-content: space-between;\n  padding: 10px 0;\n  background: #f7f7f7;\n  z-index: 10;\n  width: 100%; }\n  div.vis-title h2 {\n    font-size: 16px;\n    color: #444;\n    align-self: center; }\n  div.vis-title h2, div.vis-title div, div.vis-title select {\n    margin: 0 10px; }\n  div.vis-title button {\n    margin: 0 5px; }\n\ndiv.main-component {\n  flex-direction: column;\n  align-items: center; }\n\ntext.word {\n  text-transform: uppercase;\n  font-family: monospace; }\n\nh2 {\n  color: #333;\n  font-size: 22px; }\n\ndiv.vis-options {\n  display: flex;\n  justify-content: center; }\n  div.vis-options p.button {\n    display: inline-block;\n    margin: 0;\n    padding: 5px 10px;\n    font-size: 14px;\n    cursor: pointer;\n    background: #aaa;\n    border-radius: 5px;\n    margin-left: 10px;\n    color: white;\n    font-weight: bold; }\n    div.vis-options p.button:hover, div.vis-options p.button.active {\n      background: #848484; }\n\ndiv.vis-options p.checkbutton {\n  display: inline-block;\n  margin: 0;\n  padding: 5px 10px;\n  font-size: 14px;\n  cursor: pointer;\n  border-radius: 5px;\n  font-weight: bold;\n  margin-left: 10px; }\n  div.vis-options p.checkbutton.freixo {\n    border: 3px solid #FFD00D;\n    color: #444; }\n    div.vis-options p.checkbutton.freixo.active {\n      background: #FFD00D; }\n    div.vis-options p.checkbutton.freixo:hover {\n      background: #c09a00; }\n  div.vis-options p.checkbutton.crivella {\n    border: 3px solid #08547A;\n    color: #444; }\n    div.vis-options p.checkbutton.crivella.active {\n      background: #08547A;\n      color: #fff; }\n    div.vis-options p.checkbutton.crivella:hover {\n      background: #032332; }\n", ""]);
+	exports.push([module.id, "/*! normalize.css v5.0.0 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Change the default font family in all browsers (opinionated).\n * 2. Correct the line height in all browsers.\n * 3. Prevent adjustments of font size after orientation changes in\n *    IE on Windows Phone and in iOS.\n */\nbutton, hr, input {\n  overflow: visible; }\n\naudio, canvas, progress, video {\n  display: inline-block; }\n\nprogress, sub, sup {\n  vertical-align: baseline; }\n\nhtml {\n  font-family: sans-serif;\n  line-height: 1.15;\n  -ms-text-size-adjust: 100%;\n  -webkit-text-size-adjust: 100%; }\n\nbody {\n  margin: 0; }\n\nmenu, article, aside, details, footer, header, nav, section {\n  display: block; }\n\nh1 {\n  font-size: 2em;\n  margin: .67em 0; }\n\nfigcaption, figure, main {\n  display: block; }\n\nfigure {\n  margin: 1em 40px; }\n\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\ncode, kbd, pre, samp {\n  font-family: monospace,monospace;\n  font-size: 1em; }\n\na {\n  background-color: transparent;\n  -webkit-text-decoration-skip: objects; }\n\na:active, a:hover {\n  outline-width: 0; }\n\nabbr[title] {\n  border-bottom: none;\n  text-decoration: underline;\n  text-decoration: underline dotted; }\n\nb, strong {\n  font-weight: bolder; }\n\ndfn {\n  font-style: italic; }\n\nmark {\n  background-color: #ff0;\n  color: #000; }\n\nsmall {\n  font-size: 80%; }\n\nsub, sup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative; }\n\nsub {\n  bottom: -.25em; }\n\nsup {\n  top: -.5em; }\n\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\nimg {\n  border-style: none; }\n\nsvg:not(:root) {\n  overflow: hidden; }\n\nbutton, input, optgroup, select, textarea {\n  font-family: sans-serif;\n  font-size: 100%;\n  line-height: 1.15;\n  margin: 0; }\n\nbutton, select {\n  text-transform: none; }\n\n[type=submit], [type=reset], button, html [type=button] {\n  -webkit-appearance: button; }\n\n[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {\n  border-style: none;\n  padding: 0; }\n\n[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {\n  outline: ButtonText dotted 1px; }\n\nfieldset {\n  border: 1px solid silver;\n  margin: 0 2px;\n  padding: .35em .625em .75em; }\n\nlegend {\n  box-sizing: border-box;\n  color: inherit;\n  display: table;\n  max-width: 100%;\n  padding: 0;\n  white-space: normal; }\n\ntextarea {\n  overflow: auto; }\n\n[type=checkbox], [type=radio] {\n  box-sizing: border-box;\n  padding: 0; }\n\n[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {\n  height: auto; }\n\n[type=search] {\n  -webkit-appearance: textfield;\n  outline-offset: -2px; }\n\n[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button;\n  font: inherit; }\n\nsummary {\n  display: list-item; }\n\n[hidden], template {\n  display: none; }\n\ndiv.flexbox {\n  display: flex; }\n  div.flexbox.vis-holder {\n    flex-direction: column;\n    align-items: center;\n    box-shadow: 2px 2px 3px #333;\n    margin: 20px 0;\n    align-self: flex-start; }\n    div.flexbox.vis-holder svg {\n      margin: 5px;\n      position: relative; }\n  div.flexbox.visualizations-wrapper {\n    width: 1350px;\n    flex-wrap: wrap;\n    justify-content: space-around; }\n\ndiv.navigation {\n  width: 100%;\n  background: #f2f2f2;\n  justify-content: space-between;\n  color: #444; }\n  div.navigation div {\n    margin: 0 80px; }\n    div.navigation div h1 {\n      font-size: 24px; }\n    div.navigation div.links {\n      align-items: center; }\n      div.navigation div.links a {\n        text-align: center;\n        color: #444;\n        padding: 0 20px;\n        font-size: 14px;\n        cursor: pointer;\n        font-weight: bold;\n        text-decoration: none;\n        display: flex;\n        flex: 1 0 auto;\n        height: 100%;\n        align-items: center; }\n        div.navigation div.links a:hover, div.navigation div.links a.active {\n          background: #d1d1d1; }\n\ndiv.vis-title {\n  justify-content: space-between;\n  padding: 10px 0;\n  background: #f7f7f7;\n  z-index: 10;\n  width: 100%; }\n  div.vis-title h2 {\n    font-size: 16px;\n    color: #444;\n    align-self: center; }\n  div.vis-title h2, div.vis-title div, div.vis-title select {\n    margin: 0 10px; }\n  div.vis-title button {\n    margin: 0 5px; }\n\ndiv.main-component {\n  flex-direction: column;\n  align-items: center; }\n\ntext.word {\n  text-transform: uppercase;\n  font-family: monospace; }\n\nh2 {\n  color: #333;\n  font-size: 22px; }\n\ndiv.vis-options {\n  display: flex;\n  justify-content: center; }\n  div.vis-options p.button {\n    display: inline-block;\n    margin: 0;\n    padding: 5px 10px;\n    font-size: 14px;\n    cursor: pointer;\n    background: #aaa;\n    border-radius: 5px;\n    margin-left: 10px;\n    color: white;\n    font-weight: bold;\n    user-select: none; }\n    div.vis-options p.button:hover, div.vis-options p.button.active {\n      background: #848484; }\n\ndiv.vis-options p.checkbutton {\n  display: inline-block;\n  margin: 0;\n  padding: 5px 10px;\n  font-size: 14px;\n  cursor: pointer;\n  border-radius: 5px;\n  font-weight: bold;\n  margin-left: 10px;\n  user-select: none; }\n  div.vis-options p.checkbutton.freixo {\n    border: 3px solid #FFD00D;\n    color: #444; }\n    div.vis-options p.checkbutton.freixo.active {\n      background: #FFD00D; }\n    div.vis-options p.checkbutton.freixo:hover {\n      background: #c09a00; }\n  div.vis-options p.checkbutton.crivella {\n    border: 3px solid #08547A;\n    color: #444; }\n    div.vis-options p.checkbutton.crivella.active {\n      background: #08547A;\n      color: #fff; }\n    div.vis-options p.checkbutton.crivella:hover {\n      background: #032332; }\n\ndiv.vis-controls {\n  display: flex;\n  justify-content: center; }\n  div.vis-controls p.button {\n    display: inline-block;\n    margin: 0;\n    padding: 5px 10px;\n    font-size: 14px;\n    cursor: pointer;\n    background: #aaa;\n    border-radius: 5px;\n    margin-left: 10px;\n    color: white;\n    font-weight: bold;\n    user-select: none; }\n    div.vis-controls p.button:hover, div.vis-controls p.button.active {\n      background: #848484; }\n", ""]);
 
 	// exports
 

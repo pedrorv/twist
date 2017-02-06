@@ -212,19 +212,33 @@ function drawNewsSourceTimeLapse () {
 
     }
 
-    animateNews()
-
     function clearNewsAnimation() {
       clearInterval(visConfig.timelapseInterval)
     }
 
-    d3.select('button.play').on('click', animateNews)
-    d3.select('button.pause').on('click', clearNewsAnimation)
-    d3.select('button.back').on('click', () => {
+    d3.select('p.play').on('click', function() {
+      d3.select('div.vis-controls').selectAll('p.button').classed('active', false)
+      d3.select(this).classed('active', true)
+
+      animateNews()
+    })
+    d3.select('p.pause').on('click', function() {
+      d3.select('div.vis-controls').selectAll('p.button').classed('active', false)
+      d3.select(this).classed('active', true)
+
+      clearNewsAnimation()
+    })
+    d3.select('p.back').on('click', () => {
+      d3.select('div.vis-controls').selectAll('p.button').classed('active', false)
+      d3.select('p.pause').classed('active', true)
+
       clearNewsAnimation()
       manageAnimationState(-1)
     })
-    d3.select('button.forward').on('click', () => {
+    d3.select('p.forward').on('click', () => {
+      d3.select('div.vis-controls').selectAll('p.button').classed('active', false)
+      d3.select('p.pause').classed('active', true)
+
       clearNewsAnimation()
       manageAnimationState(1)
     })

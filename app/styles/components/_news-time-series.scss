@@ -8,6 +8,7 @@ div.vis-options {
     border-radius: 5px;
     font-weight: bold;
     margin-left: 10px;
+    user-select: none;
 
     &.freixo {
       border: 3px solid $twist-freixo;
