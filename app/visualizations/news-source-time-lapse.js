@@ -108,6 +108,18 @@ function drawNewsSourceTimeLapse () {
                      .attr('fill', 'blue')
                      .attr('opacity', 0)
 
+    let highlight = d3.select('body')
+                      .append('div')
+                      .style('position', 'absolute')
+                      .style('z-index', 30)
+                      .style('visibility', 'hidden')
+                      .style('color', 'white')
+                      .style('padding', '10px')
+                      .style('background-color', 'rgba(0,0,0,0.8)')
+                      .style('border-radius', '5px')
+                      .style('font', '12px monospace')
+                      .text('test')
+
     let node = d3.select('svg#news-time-lapse')
                   .append('g')
                   .attr('class', 'sources')
@@ -122,6 +134,16 @@ function drawNewsSourceTimeLapse () {
                   .attr('r', (d) => d.r)
                   .attr('fill', '#eee')
                   .attr('opacity', 0)
+                  .on('mouseover', (d) => {
+                    highlight.text(convertSourceName(d.className))
+                    highlight.style('visibility', 'visible')
+                  })
+                  .on('mousemove', () => {
+                    highlight.style('top', (d3.event.pageY - 10) + 'px').style('left', (d3.event.pageX + 10) + 'px')
+                  })
+                  .on('mouseout', () => {
+                    highlight.style('visibility', 'hidden')
+                  })
                   .transition()
                   .duration(200)
                   .delay((d, i) => i * 50)

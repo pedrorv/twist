@@ -51498,6 +51498,8 @@
 
 	    var textLink = d3.select('g.texts').append('a').attr('class', 'link').attr('xlink:href', 'https://www.google.com.br').attr('target', '_blank').on('click', clearNewsAnimation).append('text').attr('x', visConfig.nstlVisWidth / 2).attr('y', 50).attr('font-size', visConfig.nstlTextSize).attr('text-anchor', 'middle').attr('class', 'message').text('Nome da notícia').attr('text-decoration', 'underline').attr('fill', 'blue').attr('opacity', 0);
 
+	    var highlight = d3.select('body').append('div').style('position', 'absolute').style('z-index', 30).style('visibility', 'hidden').style('color', 'white').style('padding', '10px').style('background-color', 'rgba(0,0,0,0.8)').style('border-radius', '5px').style('font', '12px monospace').text('test');
+
 	    var node = d3.select('svg#news-time-lapse').append('g').attr('class', 'sources').selectAll('.node').data(bubbleChart.nodes(bubbleChartData).filter(function (d) {
 	      return !d.children;
 	    })).enter().append('g').attr('class', 'node').attr('transform', function (d) {
@@ -51506,7 +51508,14 @@
 	      return d.className;
 	    }).attr('r', function (d) {
 	      return d.r;
-	    }).attr('fill', '#eee').attr('opacity', 0).transition().duration(200).delay(function (d, i) {
+	    }).attr('fill', '#eee').attr('opacity', 0).on('mouseover', function (d) {
+	      highlight.text(convertSourceName(d.className));
+	      highlight.style('visibility', 'visible');
+	    }).on('mousemove', function () {
+	      highlight.style('top', d3.event.pageY - 10 + 'px').style('left', d3.event.pageX + 10 + 'px');
+	    }).on('mouseout', function () {
+	      highlight.style('visibility', 'hidden');
+	    }).transition().duration(200).delay(function (d, i) {
 	      return i * 50;
 	    }).attr('opacity', 1);
 
