@@ -10,7 +10,7 @@ function drawNewsTimeSeries () {
       
       visConfig.newsData = json.map((news) => {
         return {
-          data: new moment(news.data).format('YYYY-MM-DD'),
+          data: new moment(news.data).format('DD/MM/YYYY'),
           candidato: news.candidato
         }
       })
@@ -33,20 +33,21 @@ function drawNewsTimeSeries () {
     let mostNewsInOneDay = visConfig.newsData.reduce((acc, news) => {
       let newObj = acc
     
-      if (newObj[news.data+'/'+news.candidato] === undefined) newObj[news.data+'/'+news.candidato] = 0
+      if (newObj[news.data+'-'+news.candidato] === undefined) newObj[news.data+'-'+news.candidato] = 0
 
-      newObj[news.data+'/'+news.candidato]++
+      newObj[news.data+'-'+news.candidato]++
 
       return newObj
     }, {})
 
-    let formatDate = d3.time.format("%Y-%m-%d")
+    let formatDate = d3.time.format("%d/%m/%Y")
 
     let mostNewsArray = Object.keys(mostNewsInOneDay).map((key) => {
       return {
-        date: formatDate.parse(key.split('/')[0]),
+        date: formatDate.parse(key.split('-')[0]),
         count: mostNewsInOneDay[key],
-        candidate: key.split('/')[1]
+        candidate: key.split('-')[1],
+        unformatedDate: key.split('-')[0]
       }
     }).sort((a, b) => b.count - a.count)
 
@@ -58,7 +59,7 @@ function drawNewsTimeSeries () {
     
 
     let xScale = d3.time.scale()
-                        .range([visConfig.ntsPaddingX, visConfig.width - 2*visConfig.ntsPaddingX])
+                        .range([visConfig.ntsPaddingX, visConfig.ntsVisWidth - 2*visConfig.ntsPaddingX])
                         .domain(d3.extent(visConfig.newsData, (d) => formatDate.parse(d.data)))               
 
 
@@ -139,7 +140,7 @@ function drawNewsTimeSeries () {
        .attr('stroke-width', 2)
        .attr('opacity', 0)
        .on('mouseover', (d) => {
-         highlight.text(d.count + ((d.count > 1) ? ' notícias' : ' notícia'))
+         highlight.text(d.count + ((d.count > 1) ? ' notícias' : ' notícia') + ' em ' + d.unformatedDate)
          highlight.style('visibility', 'visible')
        })
        .on('mousemove', () => {

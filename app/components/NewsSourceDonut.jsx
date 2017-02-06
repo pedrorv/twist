@@ -12,7 +12,7 @@ const NewsSourceDonut = React.createClass({
           <div className="flexbox vis-title">
               <h2>Notícias por fonte</h2>
               <select id="news-source-selection">
-                <option value="all" defaultValue>todas</option>
+                <option value="all" defaultValue>Todas</option>
               </select>
           </div>
 

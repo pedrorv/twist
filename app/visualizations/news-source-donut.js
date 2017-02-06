@@ -1,6 +1,6 @@
 const d3 = require('d3')
 
-const { environmentUrl } = require('../utilities')
+const { environmentUrl, convertSourceName } = require('../utilities')
 
 function drawNewsSourceDonut () {
 
@@ -166,7 +166,7 @@ function drawNewsSourceDonut () {
       d3.select('text.total-sources').text(() => {
         if (filter === 'all') return newsSources.length + ((newsSources.length > 1) ? ' fontes' : ' fonte')
 
-        return filter
+        return convertSourceName(filter)
       })
       .attr('opacity', 0)
       .transition()
@@ -176,12 +176,13 @@ function drawNewsSourceDonut () {
     }
 
     // Add options to selector
+    console.log(newsSources)
 
     newsSources.forEach((source) => {
       d3.select('#news-source-selection')
         .append('option')
         .attr('value', source)
-        .text(source)
+        .text(convertSourceName(source))
         
       d3.select('#news-source-selection')
         .on('change', function() {

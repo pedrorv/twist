@@ -17,7 +17,7 @@ const NewsTimeSeries = React.createClass({
                 <p value="freixo" className="checkbutton active freixo">Freixo</p>
               </div>
           </div>
-          <svg id="news-time-series" height={visConfig.height} width={visConfig.width}></svg>          
+          <svg id="news-time-series" height={visConfig.ntsVisHeight} width={visConfig.ntsVisWidth}></svg>          
       </div>
     )
   }

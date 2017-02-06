@@ -15,6 +15,8 @@ var visConfig = {
 
   // News Time Series specs
 
+  ntsVisWidth: 1200,
+  ntsVisHeight: 500,
   ntsPaddingX: 20,
   ntsPaddingY: 30,
   ntsTickSize: 2,
@@ -24,7 +26,7 @@ var visConfig = {
 
   // News Source Donut Chart specs
 
-
+  
   nsdcVisWidth: 400,
   nsdcVisHeight: 400,
   nsdcChartRadius: 200,
@@ -33,6 +35,8 @@ var visConfig = {
 
   // News Source Time Lapse
 
+  nstlVisWidth: 1200,
+  nstlVisHeight: 500,
   nstlTickSize: 2,
   nstlCurrentNewsRadius: 5,
   nstlCurrentNewsCy: 1.5, // nstlCurrentNewsRadius/2 - nstlTickSize/2

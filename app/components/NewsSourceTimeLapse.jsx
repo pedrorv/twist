@@ -19,7 +19,7 @@ const NewsSourceTimeLapse = React.createClass({
               </div>
           </div>
           
-          <svg id="news-time-lapse" height={visConfig.height} width={visConfig.width}></svg>
+          <svg id="news-time-lapse" height={visConfig.nstlVisHeight} width={visConfig.nstlVisWidth}></svg>
       </div>
     )
   }

@@ -3,7 +3,7 @@
 const d3 = require('d3')
 const moment = require('moment')
 
-const { environmentUrl } = require('../utilities')
+const { environmentUrl, convertSourceName } = require('../utilities')
 
 function drawNewsSourceTimeLapse () {
 
@@ -19,7 +19,7 @@ function drawNewsSourceTimeLapse () {
         visConfig.newsDataHours = json2.map((news) => {
           return {
             ...news,
-            data: new moment(news.data).format('DD-MM-YYYY HH:mm:ss')
+            data: new moment(news.data).format('DD/MM/YYYY HH:mm:ss')
           }
         })
 
@@ -40,10 +40,10 @@ function drawNewsSourceTimeLapse () {
 
     let newsSources = Object.keys(visConfig.newsSources)
     
-    let formatDate = d3.time.format("%d-%m-%Y %H:%M:%S")
+    let formatDate = d3.time.format("%d/%m/%Y %H:%M:%S")
 
     let xScale = d3.time.scale()
-                        .range([visConfig.ntsPaddingX, visConfig.width - 2*visConfig.ntsPaddingX])
+                        .range([visConfig.ntsPaddingX, visConfig.nstlVisWidth - 2*visConfig.ntsPaddingX])
                         .domain(d3.extent(visConfig.newsDataHours, (d) => formatDate.parse(d.data)))   
     
     let xAxis = d3.svg.axis()
@@ -52,8 +52,8 @@ function drawNewsSourceTimeLapse () {
                       .tickFormat(d3.time.format('%d/%m'))
                       .tickSize(visConfig.nstlTickSize)
 
-    let bubbleChartWidth = (visConfig.width - 20)
-    let bubbleChartHeight = (visConfig.height - 20)
+    let bubbleChartWidth = (visConfig.nstlVisWidth - 20)
+    let bubbleChartHeight = (visConfig.nstlVisHeight - 20)
 
     let bubbleChart = d3.layout.pack()
                                .sort(null)
@@ -74,7 +74,7 @@ function drawNewsSourceTimeLapse () {
 
     svg.append('g')
        .attr('class', 'x-axis')
-       .attr('transform', 'translate(-10,' + (visConfig.height - 2*visConfig.ntsPaddingY) + ')')
+       .attr('transform', 'translate(-10,' + (visConfig.nstlVisHeight - 2*visConfig.ntsPaddingY) + ')')
        .call(xAxis)
        .selectAll('text')
        .attr('y', 15)
@@ -83,7 +83,7 @@ function drawNewsSourceTimeLapse () {
                        .append('g')
                        .attr('class', 'texts')
                        .append('text')
-                       .attr('x', visConfig.width / 2)
+                       .attr('x', visConfig.nstlVisWidth / 2)
                        .attr('y', 20)
                        .attr('font-size', visConfig.nstlTextSize)
                        .attr('text-anchor', 'middle')
@@ -98,7 +98,7 @@ function drawNewsSourceTimeLapse () {
                      .attr('target', '_blank')
                      .on('click', clearNewsAnimation)
                      .append('text')
-                     .attr('x', visConfig.width / 2)
+                     .attr('x', visConfig.nstlVisWidth / 2)
                      .attr('y', 50)
                      .attr('font-size', visConfig.nstlTextSize)
                      .attr('text-anchor', 'middle')
@@ -154,8 +154,7 @@ function drawNewsSourceTimeLapse () {
 
     function manageAnimationState(step) {
         if (currentNews === undefined) currentNews = 0
-        
-        currentNews += step
+        else currentNews += step
         
         if (currentNews === -1) currentNews = sortedNews.length - 1
         else if (currentNews === sortedNews.length) currentNews = 0
@@ -193,7 +192,7 @@ function drawNewsSourceTimeLapse () {
         
         d3.select('a.link').attr('xlink:href', data.url)
 
-        textSource.text(data.fonte + ' sobre ' + data.candidato + ' em ' + data.data)
+        textSource.text(convertSourceName(data.fonte) + ' sobre ' + data.candidato + ' em ' + data.data)
                   .transition()
                   .duration(200)
                   .delay(200)
