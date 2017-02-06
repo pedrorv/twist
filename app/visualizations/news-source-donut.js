@@ -176,7 +176,6 @@ function drawNewsSourceDonut () {
     }
 
     // Add options to selector
-    console.log(newsSources)
 
     newsSources.forEach((source) => {
       d3.select('#news-source-selection')

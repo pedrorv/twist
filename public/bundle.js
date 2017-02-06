@@ -52477,7 +52477,6 @@
 	    }
 
 	    // Add options to selector
-	    console.log(newsSources);
 
 	    newsSources.forEach(function (source) {
 	      d3.select('#news-source-selection').append('option').attr('value', source).text(convertSourceName(source));
