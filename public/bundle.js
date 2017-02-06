@@ -26816,8 +26816,21 @@
 	      var button = d3.select(this);
 
 	      button.classed('active', !button.classed('active'));
-	      d3.selectAll('circle.' + button.attr('value')).transition().duration(300).style('visibility', button.classed('active') ? 'visible' : 'hidden');
-	      d3.selectAll('path.' + button.attr('value')).transition().duration(300).style('visibility', button.classed('active') ? 'visible' : 'hidden');
+
+	      var active = button.classed('active');
+	      var candidate = button.attr('value');
+
+	      var circles = d3.selectAll('circle.' + candidate).style('visibility', 'visible').transition().duration(300).attr('opacity', active ? 1 : 0).each('end', function () {
+	        if (!active) {
+	          d3.selectAll('circle.' + candidate).style('visibility', 'hidden');
+	        }
+	      });
+
+	      var path = d3.selectAll('path.' + candidate).style('visibility', 'visible').transition().duration(300).attr('opacity', active ? 1 : 0).each('end', function () {
+	        if (!active) {
+	          d3.selectAll('path.' + candidate).style('visibility', 'hidden');
+	        }
+	      });
 	    });
 	  }
 	}
